@@ -1,24 +1,41 @@
 import time
 import Adafruit_DHT
 
-#!/usr/bin/env python
 import matplotlib.pyplot as plt
 
 # Set up the sensor
 sensor = Adafruit_DHT.DHT11
 pin = 23
 
-# Initialize lists to store temperature and time data
+# Initialize lists to store temperature, humidity, and time data
 temperature_data = []
+humidity_data = []
 time_data = []
 
 # Set up the plot
-plt.ion()  # Turn on interactive mode
-fig, ax = plt.subplots()
-line, = ax.plot(time_data, temperature_data)
-ax.set_xlabel('Time')
-ax.set_ylabel('Temperature (°C)')
-ax.set_title('Real-time Temperature')
+fig, axs = plt.subplots(2, 2)
+fig.suptitle('Real-time Climate Data')
+
+# Temperature plot
+axs[0, 0].set_xlabel('Time')
+axs[0, 0].set_ylabel('Temperature (°C)')
+axs[0, 0].set_title('Temperature')
+line_temp, = axs[0, 0].plot(time_data, temperature_data)
+
+# Humidity plot
+axs[0, 1].set_xlabel('Time')
+axs[0, 1].set_ylabel('Humidity (%)')
+axs[0, 1].set_title('Humidity')
+line_humidity, = axs[0, 1].plot(time_data, humidity_data)
+
+# Temperature vs Humidity plot
+axs[1, 0].set_xlabel('Temperature (°C)')
+axs[1, 0].set_ylabel('Humidity (%)')
+axs[1, 0].set_title('Temperature vs Humidity')
+scatter_temp_humidity = axs[1, 0].scatter(temperature_data, humidity_data)
+
+# Hide the empty subplot
+axs[1, 1].axis('off')
 
 # Main loop
 fails = 0
@@ -30,12 +47,21 @@ while True:
     if humidity is not None and temperature is not None:
         print(f"Temperature: {temperature:.6f}°C \t Humidity: {humidity:.6f}%")  # Print with 6 decimal accuracy
         temperature_data.append(temperature)
+        humidity_data.append(humidity)
         time_data.append(time.time())  # Use current time as x-axis value
 
-        # Update the plot
-        line.set_data(time_data, temperature_data)
-        ax.relim()
-        ax.autoscale_view()
+        # Update the temperature plot
+        line_temp.set_data(time_data, temperature_data)
+        axs[0, 0].relim()
+        axs[0, 0].autoscale_view()
+
+        # Update the humidity plot
+        line_humidity.set_data(time_data, humidity_data)
+        axs[0, 1].relim()
+        axs[0, 1].autoscale_view()
+
+        # Update the temperature vs humidity plot
+        scatter_temp_humidity.set_offsets(list(zip(temperature_data, humidity_data)))
 
         # Redraw the plot
         fig.canvas.draw()
