@@ -20,7 +20,7 @@ time_data = []
 semaphore_light = False
 
 # Function to update the semaphore light
-def update_semaphore_light():
+def update_semaphore_light(humidity):
     global semaphore_light
     if humidity > 50:
         semaphore_light = True
@@ -28,7 +28,7 @@ def update_semaphore_light():
         semaphore_light = False
 
 # Update the semaphore light
-update_semaphore_light()
+update_semaphore_light(20)
 
 # Semaphore light plot
 axs[1, 1].set_title('Semaphore Light')
@@ -67,7 +67,7 @@ while True:
         scatter_temp_humidity.set_offsets(list(zip(temperature_data, humidity_data)))
 
         # Update the semaphore light
-        update_semaphore_light()
+        update_semaphore_light(humidity)
         semaphore_color = 'green' if semaphore_light else 'red'
         semaphore_light_patch.set_facecolor(semaphore_color)
     
