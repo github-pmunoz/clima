@@ -31,8 +31,6 @@ def update_semaphore_light():
 update_semaphore_light()
 
 # Semaphore light plot
-axs[1, 1].axis('off')ff')
-
 axs[1, 1].set_title('Semaphore Light')
 semaphore_color = 'green' if semaphore_light else 'red'
 semaphore_light_patch = axs[1, 1].add_patch(plt.Rectangle((0, 0), 1, 1, facecolor=semaphore_color))
