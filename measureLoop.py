@@ -48,4 +48,4 @@ while True:
             break
 
     # Wait for 0.25 seconds before the next measurement
-    time.sleep(0.25)
+    time.sleep(0.01)
