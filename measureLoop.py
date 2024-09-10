@@ -31,25 +31,26 @@ def update_semaphore_light(humidity):
 update_semaphore_light(20)
 
 # Create the figure and axes for the plots
-fig, axs = plt.subplots(2, 2, figsize=(10, 8))
+fig, axs = plt.subplots(2, 2, figsize=(5, 4))
 
 # Temperature plot
 axs[0, 0].set_title('Temperature')
 axs[0, 0].set_xlabel('Time')
 axs[0, 0].set_ylabel('Temperature (°C)')
-line_temp, = axs[0, 0].plot([], [], 'b-')
+axs[0, 0].set_ylim(temperature_range)
 
 # Humidity plot
 axs[0, 1].set_title('Humidity')
 axs[0, 1].set_xlabel('Time')
 axs[0, 1].set_ylabel('Humidity (%)')
-line_humidity, = axs[0, 1].plot([], [], 'g-')
+axs[0, 1].set_ylim(humidity_range)
 
 # Temperature vs Humidity plot
 axs[1, 0].set_title('Temperature vs Humidity')
 axs[1, 0].set_xlabel('Temperature (°C)')
 axs[1, 0].set_ylabel('Humidity (%)')
-scatter_temp_humidity = axs[1, 0].scatter([], [], c='r', marker='o')
+axs[1, 0].set_xlim(temperature_range)
+axs[1, 0].set_ylim(humidity_range)
 
 # Semaphore light plot
 axs[1, 1].set_title('Semaphore Light')
