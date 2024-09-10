@@ -1,10 +1,24 @@
-#!/usr/bin/env python
 import time
 import Adafruit_DHT
+
+#!/usr/bin/env python
+import matplotlib.pyplot as plt
 
 # Set up the sensor
 sensor = Adafruit_DHT.DHT11
 pin = 23
+
+# Initialize lists to store temperature and time data
+temperature_data = []
+time_data = []
+
+# Set up the plot
+plt.ion()  # Turn on interactive mode
+fig, ax = plt.subplots()
+line, = ax.plot(time_data, temperature_data)
+ax.set_xlabel('Time')
+ax.set_ylabel('Temperature (°C)')
+ax.set_title('Real-time Temperature')
 
 # Main loop
 fails = 0
@@ -15,6 +29,17 @@ while True:
     # Check if data was successfully retrieved
     if humidity is not None and temperature is not None:
         print(f"Temperature: {temperature}°C \t Humidity: {humidity}%")
+        temperature_data.append(temperature)
+        time_data.append(time.time())  # Use current time as x-axis value
+
+        # Update the plot
+        line.set_data(time_data, temperature_data)
+        ax.relim()
+        ax.autoscale_view()
+
+        # Redraw the plot
+        fig.canvas.draw()
+        fig.canvas.flush_events()
     else:
         print("Failed to retrieve data from sensor")
         fails += 1
