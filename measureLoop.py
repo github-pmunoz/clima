@@ -7,49 +7,44 @@ import matplotlib.pyplot as plt
 sensor = Adafruit_DHT.DHT11
 pin = 23
 
+# Define the ranges for temperature and humidity
+temperature_range = (0, 65)  # Minimum and maximum temperature values
+humidity_range = (20, 100)  # Minimum and maximum humidity values
+
 # Initialize lists to store temperature, humidity, and time data
 temperature_data = []
 humidity_data = []
 time_data = []
 
-# Set up the plot
-fig, axs = plt.subplots(2, 2)
-fig.suptitle('Real-time Climate Data')
+# Semaphore light
+semaphore_light = False
 
-# Temperature plot
-axs[0, 0].set_xlabel('Time')
-axs[0, 0].set_ylabel('Temperature (°C)')
-axs[0, 0].set_title('Temperature')
-line_temp, = axs[0, 0].plot(time_data, temperature_data)
-axs[0, 0].set_ylim(0, 65)  # Set the y-axis limits for temperature plot
+# Function to update the semaphore light
+def update_semaphore_light():
+    global semaphore_light
+    if humidity > 50:
+        semaphore_light = True
+    else:
+        semaphore_light = False
 
-# Humidity plot
-axs[0, 1].set_xlabel('Time')
-axs[0, 1].set_ylabel('Humidity (%)')
-axs[0, 1].set_title('Humidity')
-line_humidity, = axs[0, 1].plot(time_data, humidity_data)
-axs[0, 1].set_ylim(0, 100)  # Set the y-axis limits for humidity plot
+# Update the semaphore light
+update_semaphore_light()
 
-# Temperature vs Humidity plot
-axs[1, 0].set_xlabel('Temperature (°C)')
-axs[1, 0].set_ylabel('Humidity (%)')
-axs[1, 0].set_title('Temperature vs Humidity')
-scatter_temp_humidity = axs[1, 0].scatter(temperature_data, humidity_data)
-axs[1, 0].set_xlim(0, 65)  # Set the x-axis limits for temperature vs humidity plot
-axs[1, 0].set_ylim(0, 100)  # Set the y-axis limits for temperature vs humidity plot
+# Semaphore light plot
+axs[1, 1].axis('off')ff')
 
-# Hide the empty subplot
-axs[1, 1].axis('off')
+axs[1, 1].set_title('Semaphore Light')
+semaphore_color = 'green' if semaphore_light else 'red'
+semaphore_light_patch = axs[1, 1].add_patch(plt.Rectangle((0, 0), 1, 1, facecolor=semaphore_color))
 
 # Main loop
-fails = 0
-fig.show()
 while True:
     # Read the sensor data
     humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
-
-    # check range is correct to discard outliers
-    if temperature < 0 or temperature > 65 or humidity < 0 or humidity > 100:
+    
+    # Check if data is within the defined ranges
+    if temperature < temperature_range[0] or temperature > temperature_range[1] or \
+            humidity < humidity_range[0] or humidity > humidity_range[1]:
         print("Out of range values. Discarding...")
         continue
 
@@ -73,6 +68,11 @@ while True:
         # Update the temperature vs humidity plot
         scatter_temp_humidity.set_offsets(list(zip(temperature_data, humidity_data)))
 
+        # Update the semaphore light
+        update_semaphore_light()
+        semaphore_color = 'green' if semaphore_light else 'red'
+        semaphore_light_patch.set_facecolor(semaphore_color)
+    
         # Redraw the plot
         fig.canvas.draw()
         fig.canvas.flush_events()
