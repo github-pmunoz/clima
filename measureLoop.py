@@ -39,6 +39,7 @@ axs[1, 1].axis('off')
 
 # Main loop
 fails = 0
+fig.show()
 while True:
     # Read the sensor data
     humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
