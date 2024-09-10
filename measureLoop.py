@@ -44,6 +44,11 @@ while True:
     # Read the sensor data
     humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
 
+    # check range is correct to discard outliers
+    if temperature < 0 or temperature > 65 or humidity < 0 or humidity > 100:
+        print("Out of range values. Discarding...")
+        continue
+
     # Check if data was successfully retrieved
     if humidity is not None and temperature is not None:
         print(f"Temperature: {temperature:.6f}°C \t Humidity: {humidity:.6f}%")  # Print with 6 decimal accuracy
