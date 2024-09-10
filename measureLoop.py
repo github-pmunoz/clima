@@ -30,6 +30,27 @@ def update_semaphore_light(humidity):
 # Update the semaphore light
 update_semaphore_light(20)
 
+# Create the figure and axes for the plots
+fig, axs = plt.subplots(2, 2, figsize=(10, 8))
+
+# Temperature plot
+axs[0, 0].set_title('Temperature')
+axs[0, 0].set_xlabel('Time')
+axs[0, 0].set_ylabel('Temperature (°C)')
+line_temp, = axs[0, 0].plot([], [], 'b-')
+
+# Humidity plot
+axs[0, 1].set_title('Humidity')
+axs[0, 1].set_xlabel('Time')
+axs[0, 1].set_ylabel('Humidity (%)')
+line_humidity, = axs[0, 1].plot([], [], 'g-')
+
+# Temperature vs Humidity plot
+axs[1, 0].set_title('Temperature vs Humidity')
+axs[1, 0].set_xlabel('Temperature (°C)')
+axs[1, 0].set_ylabel('Humidity (%)')
+scatter_temp_humidity = axs[1, 0].scatter([], [], c='r', marker='o')
+
 # Semaphore light plot
 axs[1, 1].set_title('Semaphore Light')
 semaphore_color = 'green' if semaphore_light else 'red'
