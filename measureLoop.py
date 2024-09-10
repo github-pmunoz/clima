@@ -21,18 +21,22 @@ axs[0, 0].set_xlabel('Time')
 axs[0, 0].set_ylabel('Temperature (°C)')
 axs[0, 0].set_title('Temperature')
 line_temp, = axs[0, 0].plot(time_data, temperature_data)
+axs[0, 0].set_ylim(0, 65)  # Set the y-axis limits for temperature plot
 
 # Humidity plot
 axs[0, 1].set_xlabel('Time')
 axs[0, 1].set_ylabel('Humidity (%)')
 axs[0, 1].set_title('Humidity')
 line_humidity, = axs[0, 1].plot(time_data, humidity_data)
+axs[0, 1].set_ylim(0, 100)  # Set the y-axis limits for humidity plot
 
 # Temperature vs Humidity plot
 axs[1, 0].set_xlabel('Temperature (°C)')
 axs[1, 0].set_ylabel('Humidity (%)')
 axs[1, 0].set_title('Temperature vs Humidity')
 scatter_temp_humidity = axs[1, 0].scatter(temperature_data, humidity_data)
+axs[1, 0].set_xlim(0, 65)  # Set the x-axis limits for temperature vs humidity plot
+axs[1, 0].set_ylim(0, 100)  # Set the y-axis limits for temperature vs humidity plot
 
 # Hide the empty subplot
 axs[1, 1].axis('off')
