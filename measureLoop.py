@@ -56,6 +56,8 @@ axs[1, 1].set_title('Semaphore Light')
 semaphore_color = 'green' if semaphore_light else 'red'
 semaphore_light_patch = axs[1, 1].add_patch(plt.Rectangle((0, 0), 1, 1, facecolor=semaphore_color))
 
+fig.plot()
+
 # Main loop
 while True:
     # Read the sensor data
