@@ -4,7 +4,7 @@ import RPi.GPIO as GPIO
 
 # Create a function for a thread that will monitor the buttom input and detect an a push down event
 def button_monitor(func):
-    button_pin = 6
+    button_pin = 25
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(button_pin, GPIO.IN)
     while True:
@@ -18,7 +18,7 @@ def button_monitor(func):
 red_pin = 22
 yellow_pin = 24
 green_pin = 27
-button_pin = 6
+button_pin = 25
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(red_pin, GPIO.OUT)
