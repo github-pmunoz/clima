@@ -6,6 +6,9 @@ import RPi.GPIO as GPIO
 # Set up the GPIO using BCM numbering
 GPIO.setmode(GPIO.BCM)
 
+# cleanup before starting
+GPIO.cleanup()
+
 # Set the GPIO sensor pin number
 pin = 23
 sensor = Adafruit_DHT.DHT11
@@ -174,3 +177,6 @@ while True:
 
     # Wait for 0.25 seconds before the next measurement
     time.sleep(0.01)
+
+# Clean up the GPIO
+GPIO.cleanup()
