@@ -34,7 +34,7 @@ led_states = [
 ]
 current_state = 0
 
-def cycle_led_state(channel):
+def cycle_led_state():
     global current_state
     current_state = (current_state + 1) % len(led_states)
     red_state, yellow_state, green_state = led_states[current_state]
