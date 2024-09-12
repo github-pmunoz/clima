@@ -6,25 +6,24 @@ import matplotlib.pyplot as plt
 import RPi.GPIO as GPIO
 
 # for each of the emas (slow, mid, fast) we have a green-yellow-red led light
+GPIO.setmode(GPIO.BCM)
 pins = {
     'slow': {
-        'red': 22,
-        'yellow': 24,
-        'green': 27
+        'red': 13,
+        'yellow': 11,
+        'green': 12
     },  
     'mid': {
-        'red': 23,
-        'yellow': 25,
-        'green': 28
+        'red': 22,
+        'yellow': 23,
+        'green': 24
     },
     'fast': {
-        'red': 29,
-        'yellow': 31,
-        'green': 33
+        'red': 20,
+        'yellow': 26,
+        'green': 21
     }
 }
-
-GPIO.setmode(GPIO.BCM)
 for ema, colors in pins.items():
     for color in pin[ema]:
         GPIO.setup(pin[ema][color], GPIO.OUT)
