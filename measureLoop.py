@@ -74,8 +74,10 @@ while True:
         # Update the temperature vs humidity plot
         scatter_temp_humidity.set_offsets(list(zip(temperature_data, humidity_data)))
         scatter_temp_humidity.set_array(np.array(time_data))
+        scatter_temp_humidity.set_cmap('cool')  # Set the colormap to 'cool'
         axs[1, 0].relim()
         axs[1, 0].autoscale_view()
+        axs[1, 0].set_facecolor('black')  # Set the background color to black
 
         # Redraw the plot
         fig.canvas.draw()
