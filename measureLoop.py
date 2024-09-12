@@ -73,6 +73,9 @@ while True:
 
         # Update the temperature vs humidity plot
         scatter_temp_humidity.set_offsets(list(zip(temperature_data, humidity_data)))
+        scatter_temp_humidity.set_array(np.array(time_data))
+        axs[1, 0].relim()
+        axs[1, 0].autoscale_view()
 
         # Redraw the plot
         fig.canvas.draw()
