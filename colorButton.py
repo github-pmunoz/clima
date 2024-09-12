@@ -1,6 +1,18 @@
 import time
-
+import multiprocessing
 import RPi.GPIO as GPIO
+
+# Create a function for a thread that will monitor the buttom input and detect an a push down event
+def button_monitor(func):
+    button_pin = 6
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(button_pin, GPIO.IN)
+    while True:
+        input_state = GPIO.input(button_pin)
+        if input_state == False:
+            print('Button Pressed')
+            func()
+            time.sleep(0.2)
 
 # Set up GPIO pins
 red_pin = 22
@@ -30,12 +42,12 @@ def cycle_led_state(channel):
     GPIO.output(yellow_pin, yellow_state)
     GPIO.output(green_pin, green_state)
 
-# Add event listener for button press
-GPIO.add_event_detect(button_pin, GPIO.FALLING, callback=cycle_led_state, bouncetime=200)
-
 try:
-    while True:
-        time.sleep(0.1)
+    # Create a separate process for the button monitor
+    button_process = multiprocessing.Process(target=button_monitor, args=(cycle_led_state,))
+    button_process.start()
+    button_process.join()
+
 
 except KeyboardInterrupt:
     GPIO.cleanup()
