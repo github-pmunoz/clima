@@ -18,7 +18,7 @@ GPIO.setup(GREEN_PIN, GPIO.OUT)
 
 # Initialize DHT11 sensor
 sensor = Adafruit_DHT.DHT11
-pin = 4
+pin = 23
 
 def measure_temperature_humidity():
     # Read temperature and humidity from DHT11 sensor
@@ -37,20 +37,24 @@ def update_led(weather):
     # Update LED based on weather
     if weather == "nice":
         GPIO.output(GREEN_PIN, GPIO.HIGH)
-    else:
+    elif weather == "warm":
+        GPIO.output(YELLOW_PIN, GPIO.HIGH)
+    elif weather == "hot":
         GPIO.output(RED_PIN, GPIO.HIGH)
 
 try:
     while True:
         temperature, humidity = measure_temperature_humidity()
         print(temperature, humidity)
-        
+
         if temperature is not None and humidity is not None:
-            # Check if weather is nice based on temperature and humidity thresholds
-            if temperature > 25 and humidity < 70:
+            # Categorize the temperature on green (nice), yellow (warm), or red (hot)
+            if temperature <= 24:
                 weather = "nice"
+            elif temperature <= 30:
+                weather = "warm"
             else:
-                weather = "not nice"
+                weather = "hot"
 
             update_led(weather)
 
