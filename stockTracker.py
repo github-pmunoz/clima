@@ -48,7 +48,7 @@ def get_bitcoin_price():
     response = requests.get(url)
     data = response.json()
     price = data['bpi']['USD']['rate_float']
-    return float(price.replace(',', ''))
+    return price
 
 def ema_indicator(price, ema, pins, flash=0):
     # if the price is near to the EMA, turn on yellow LED. If the price is above the EMA, turn on green LED. If the price is below the EMA, turn on red LED.
