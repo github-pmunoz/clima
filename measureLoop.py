@@ -71,7 +71,7 @@ def button_callback(channel):
 # Set up the button on the gpio
 button_pin = 25
 GPIO.setup(button_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-GPIO.add_event_detect(button_pin, GPIO.RISING, callback=button_callback)
+GPIO.add_event_detect(button_pin, GPIO.RISING, callback=button_callback, bouncetime=200)
 
 # Set up the plot
 import matplotlib
@@ -120,6 +120,8 @@ scatter_temp_humidity = axs[1, 0].scatter([], [], c=[], cmap='cool', alpha=0.5)
 # Initialize the histogram
 hist_temp, bins_temp, patches_temp = axs[1, 1].hist([], bins=10, range=(0, 50), color='r', alpha=0.7)
 
+# Display the plot
+plt.show()
 
 # Add semaphore light toggle to the main loop
 while True:
