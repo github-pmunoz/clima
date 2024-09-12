@@ -25,8 +25,9 @@ pins = {
     }
 }
 for ema, colors in pins.items():
-    for color in pin[ema]:
-        GPIO.setup(pin[ema][color], GPIO.OUT)
+    for color, pin in colors.items():
+        GPIO.setup(pin, GPIO.OUT)
+        
 
 def turn_on_led(pin):
     GPIO.output(pin, GPIO.HIGH)
