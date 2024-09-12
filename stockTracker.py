@@ -53,9 +53,13 @@ def get_bitcoin_price():
 def ema_indicator(price, ema, pins, flash=0):
     # if the price is near to the EMA, turn on yellow LED. If the price is above the EMA, turn on green LED. If the price is below the EMA, turn on red LED.
     # use a level of tolerance for the price to be considered near the EMA
+    if ema is None:
+        return
+        
     tolerance = 0.1
     if flash:
         flash_led(pins['red'], flash)
+
     if price < ema * (1 - tolerance):
         turn_on_led(pins['red'])
     elif price > ema * (1 + tolerance):
