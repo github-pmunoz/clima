@@ -3,6 +3,9 @@ import Adafruit_DHT
 import numpy as np
 import RPi.GPIO as GPIO
 
+# Set up the GPIO using BCM numbering
+GPIO.setmode(GPIO.BCM)
+
 # Set up the button on the gpio
 button_pin = 25
 GPIO.setup(button_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
@@ -10,13 +13,8 @@ GPIO.setup(button_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 # Set the GPIO sensor pin number
 pin = 23
 
-# Set up
-
 # Set the sensor type (DHT11)
 sensor = Adafruit_DHT.DHT11
-
-# Set up the GPIO using BCM numbering
-GPIO.setmode(GPIO.BCM)
 
 # Set up the LED pins
 red_pin = 22
@@ -72,12 +70,60 @@ def toggle_semaphore_light():
         semaphore_state = 0
 
 # Add semaphore light toggle to the button callback
-def button_callback(channel)::
+def button_callback(channel):
     print("Button pressed!")
     toggle_semaphore_light()
 
 # Add the button callback to the button pin
 GPIO.add_event_detect(button_pin, GPIO.RISING, callback=button_callback)
+
+# Set up the plot
+import matplotlib
+import matplotlib.pyplot as plt
+
+# Set the plot style
+plt.style.use('dark_background')
+
+# Create a figure and axis
+fig, axs = plt.subplots(2, 2, figsize=(10, 10))
+
+# Set the title of the plot
+fig.canvas.set_window_title('Temperature and Humidity Monitor')
+
+# Set the title of the first plot
+axs[0, 0].set_title('Temperature')
+axs[0, 0].set_xlabel('Time (s)')
+axs[0, 0].set_ylabel('Temperature (°C)')
+axs[0, 0].grid(True)
+
+# Set the title of the second plot
+axs[0, 1].set_title('Humidity')
+# Set the title of the second plot
+axs[0, 1].set_title('Humidity')
+axs[0, 1].set_xlabel('Time (s)')
+axs[0, 1].set_ylabel('Humidity (%)')
+axs[0, 1].grid(True)
+# Set the title of the third plot
+axs[1, 0].set_title('Temperature vs Humidity')
+axs[1, 0].set_xlabel('Temperature (°C)')
+axs[1, 0].set_ylabel('Humidity (%)')
+axs[1, 0].grid(True)
+# Set the title of the fourth plot
+axs[1, 1].set_title('Temperature Histogram')
+axs[1, 1].set_xlabel('Temperature (°C)')
+axs[1, 1].set_ylabel('Frequency')
+axs[1, 1].grid(True)
+# Initialize the data arrays
+temperature_data = []
+humidity_data = []
+time_data = []
+# Initialize the plot lines and scatter plot
+line_temp, = axs[0, 0].plot([], [], 'r-')
+line_humidity, = axs[0, 1].plot([], [], 'b-')
+scatter_temp_humidity = axs[1, 0].scatter([], [], c=[], cmap='cool', alpha=0.5)
+# Initialize the histogram
+hist_temp, bins_temp, patches_temp = axs[1, 1].hist([], bins=10, range=(0, 50), color='r', alpha=0.7)
+
 
 # Add semaphore light toggle to the main loop
 while True:
