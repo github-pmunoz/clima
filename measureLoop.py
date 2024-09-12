@@ -72,6 +72,7 @@ while True:
         axs[0, 1].autoscale_view()
 
         # Update the temperature vs humidity plot
+        scatter_temp_humidity = axs[1, 0].scatter(temperature_data, humidity_data, c=time_data, cmap='cool', alpha=0.5)
         scatter_temp_humidity.set_offsets(list(zip(temperature_data, humidity_data)))
         scatter_temp_humidity.set_array(np.array(time_data))
         scatter_temp_humidity.set_cmap('cool')  # Set the colormap to 'cool'
