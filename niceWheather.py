@@ -1,4 +1,4 @@
-import dht11
+import Adafruit_DHT
 import time
 
 import RPi.GPIO as GPIO
@@ -9,7 +9,7 @@ GPIO.setmode(GPIO.BCM)
 # Set up the LED pins
 RED_PIN = 22
 YELLOW_PIN = 24
-GREEN_ÏN = 27
+GREEN_PIN = 27
 
 # Initialize LED pins as output
 GPIO.setup(RED_PIN, GPIO.OUT)
@@ -17,14 +17,13 @@ GPIO.setup(YELLOW_PIN, GPIO.OUT)
 GPIO.setup(GREEN_PIN, GPIO.OUT)
 
 # Initialize DHT11 sensor
-sensor = dht11.DHT11(pin=4)
+sensor = Adafruit_DHT.DHT11
+pin = 4
 
 def measure_temperature_humidity():
     # Read temperature and humidity from DHT11 sensor
-    result = sensor.read()
-    if result.is_valid():
-        temperature = result.temperature
-        humidity = result.humidity
+    humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
+    if humidity is not None and temperature is not None:
         return temperature, humidity
     else:
         return None, None
