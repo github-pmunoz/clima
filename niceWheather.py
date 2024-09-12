@@ -43,7 +43,8 @@ def update_led(weather):
 try:
     while True:
         temperature, humidity = measure_temperature_humidity()
-
+        print(temperature, humidity)
+        
         if temperature is not None and humidity is not None:
             # Check if weather is nice based on temperature and humidity thresholds
             if temperature > 25 and humidity < 70:
@@ -56,8 +57,6 @@ try:
             print(f"Temperature: {temperature}°C, Humidity: {humidity}%, Weather: {weather}")
         else:
             print("Failed to read data from DHT11 sensor")
-
-        time.sleep(2)
 
 except KeyboardInterrupt:
     # Clean up GPIO on keyboard interrupt
