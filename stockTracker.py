@@ -14,31 +14,44 @@ GPIO.setup(YELLOW_PIN, GPIO.OUT)
 GPIO.setup(GREEN_PIN, GPIO.OUT)
 
 def get_bitcoin_price():
-    # Make a request to the API to get the current Bitcoin price
-    response = requests.get('https://api.coindesk.com/v1/bpi/currentprice/BTC.json')
+    # Get the current Bitcoin price from the CoinDesk API
+    url = "https://api.coindesk.com/v1/bpi/currentprice.json"
+    response = requests.get(url)
     data = response.json()
-    price = data['bpi']['USD']['rate']
-    return float(price.replace(',', ''))
+    price = data['bpi']['USD']['rate_float']
+    return price
+
+def get_bitcoin_price_change(last_price):
+    # Get the difference between last price and new price
+    new_price = get_bitcoin_price()
+    price_change = new_price - last_price
+    return price_change
 
 def update_lights(price):
     # Update the lights based on the price
-    if price > 0.001:
+    if price > 0:
         GPIO.output(GREEN_PIN, GPIO.HIGH)
         GPIO.output(YELLOW_PIN, GPIO.LOW)
         GPIO.output(RED_PIN, GPIO.LOW)
-    elif price == 0.001:
+    elif price == 0:
         GPIO.output(GREEN_PIN, GPIO.LOW)
         GPIO.output(YELLOW_PIN, GPIO.HIGH)
         GPIO.output(RED_PIN, GPIO.LOW)
-    else:
+    else price < 0:
         GPIO.output(GREEN_PIN, GPIO.LOW)
         GPIO.output(YELLOW_PIN, GPIO.LOW)
         GPIO.output(RED_PIN, GPIO.HIGH)
 
-try:
+try:      
+    # Get the current Bitcoin price
+    price = get_bitcoin_price()
+    time.sleep(0.25)
     while True:
-        price = get_bitcoin_price()
-        update_lights(price)
-        time.sleep(1)
+        # Update the lights based on the price change
+        price_change = get_bitcoin_price_change(price)
+        update_lights(price_change)
+
+        # Wait for 1 second before checking the price again
+        time.sleep(0.25)
 except KeyboardInterrupt:
     GPIO.cleanup()
