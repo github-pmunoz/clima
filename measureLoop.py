@@ -1,5 +1,6 @@
 import time
 import Adafruit_DHT
+import numpy as np
 
 import matplotlib.pyplot as plt
 
@@ -34,7 +35,7 @@ axs[0, 1].set_ylim(0, 100)  # Set the y-axis limits for humidity plot
 axs[1, 0].set_xlabel('Temperature (°C)')
 axs[1, 0].set_ylabel('Humidity (%)')
 axs[1, 0].set_title('Temperature vs Humidity')
-scatter_temp_humidity = axs[1, 0].scatter(temperature_data, humidity_data)
+scatter_temp_humidity = axs[1, 0].scatter(temperature_data, humidity_data, c=time_data, cmap='cool', alpha=0.5)
 axs[1, 0].set_xlim(0, 65)  # Set the x-axis limits for temperature vs humidity plot
 axs[1, 0].set_ylim(0, 100)  # Set the y-axis limits for temperature vs humidity plot
 
