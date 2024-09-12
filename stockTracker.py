@@ -43,6 +43,13 @@ def flash_led(pin, times):
         turn_off_led(pin)
         time.sleep(0.5)
 
+def get_bitcoin_price():
+    url = 'https://api.coindesk.com/v1/bpi/currentprice.json'
+    response = requests.get(url)
+    data = response.json()
+    price = data['bpi']['USD']['rate_float']
+    return float(price.replace(',', ''))
+
 def ema_indicator(price, ema, pins, flash=0):
     # if the price is near to the EMA, turn on yellow LED. If the price is above the EMA, turn on green LED. If the price is below the EMA, turn on red LED.
     # use a level of tolerance for the price to be considered near the EMA
@@ -56,7 +63,6 @@ def ema_indicator(price, ema, pins, flash=0):
     else:
         turn_on_led(pins['yellow'])
 
-# Rest of the code...
 def calculate_ema(prices, window):
     if(len(prices) < window):
         return [None]
