@@ -86,9 +86,6 @@ plt.style.use('dark_background')
 # Create a figure and axis
 fig, axs = plt.subplots(2, 2, figsize=(10, 10))
 
-# Set the title of the plot
-fig.canvas.set_window_title('Temperature and Humidity Monitor')
-
 # Set the title of the first plot
 axs[0, 0].set_title('Temperature')
 axs[0, 0].set_xlabel('Time (s)')
@@ -122,6 +119,16 @@ line_humidity, = axs[0, 1].plot([], [], 'b-')
 scatter_temp_humidity = axs[1, 0].scatter([], [], c=[], cmap='cool', alpha=0.5)
 # Initialize the histogram
 hist_temp, bins_temp, patches_temp = axs[1, 1].hist([], bins=10, range=(0, 50), color='r', alpha=0.7)
+
+# setup the ranges of all plots according to valid humidity and temperature values
+axs[0, 0].set_ylim(0, 50)
+axs[0, 1].set_ylim(0, 100)
+axs[1, 0].set_xlim(0, 50)
+axs[1, 0].set_ylim(0, 100)
+axs[1, 1].set_xlim(0, 50)
+axs[1, 1].set_ylim(0, 100)
+
+
 
 # Display the plot
 plt.show()
