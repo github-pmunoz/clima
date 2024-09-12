@@ -6,14 +6,8 @@ import RPi.GPIO as GPIO
 # Set up the GPIO using BCM numbering
 GPIO.setmode(GPIO.BCM)
 
-# Set up the button on the gpio
-button_pin = 25
-GPIO.setup(button_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-
 # Set the GPIO sensor pin number
 pin = 23
-
-# Set the sensor type (DHT11)
 sensor = Adafruit_DHT.DHT11
 
 # Set up the LED pins
@@ -74,7 +68,9 @@ def button_callback(channel):
     print("Button pressed!")
     toggle_semaphore_light()
 
-# Add the button callback to the button pin
+# Set up the button on the gpio
+button_pin = 25
+GPIO.setup(button_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.add_event_detect(button_pin, GPIO.RISING, callback=button_callback)
 
 # Set up the plot
