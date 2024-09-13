@@ -108,11 +108,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     try:
-        GPIO.setmode(GPIO.BCM)
-        semaphore = SemaphoreLED(args.red, args.yellow, args.green)
-        semaphore.xmas_tree(10)
-
-        #try update logic
         semaphore.on(10, 0.1)
             
     finally:   
