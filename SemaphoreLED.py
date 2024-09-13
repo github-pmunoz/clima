@@ -27,7 +27,7 @@ class LED:
             time.sleep(1.0/speed)
 
 class SemaphoreLED:
-    def __init__(red_pin, yellow_pin, green_pin):
+    def __init__(self, red_pin, yellow_pin, green_pin):
         self.lights = {
             'red': LED(red_pin),
             'yellow': LED(yellow_pin),
