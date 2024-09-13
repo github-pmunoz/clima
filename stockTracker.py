@@ -9,9 +9,9 @@ import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM)
 pins = {
     'slow': {
-        'red': 13,
-        'yellow': 11,
-        'green': 12
+        'red': 27,
+        'yellow': 18,
+        'green': 17
     },  
     'mid': {
         'red': 22,
