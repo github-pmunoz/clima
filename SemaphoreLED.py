@@ -116,7 +116,7 @@ if __name__ == '__main__':
     try:
         GPIO.setmode(GPIO.BCM)
         semaphore = SemaphoreLED(args.red, args.yellow, args.green)
-        semaphore.on(10, 0.1)
+        semaphore.on(3, 0.1)
             
     finally:   
         GPIO.cleanup()
