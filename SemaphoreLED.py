@@ -7,6 +7,7 @@ import RPi.GPIO as GPIO
 import time
 import argparse
 import multiprocessing
+import random
 
 class LED:
     def __init__(self, pin):
