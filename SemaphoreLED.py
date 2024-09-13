@@ -34,12 +34,52 @@ class SemaphoreLED:
             'yellow': LED(yellow_pin),
             'green': LED(green_pin)
         }
+        self.status = 'red'
+
+    def on(self, duration, sleep_time):
+        #Launch a subprocess with a function that uses update_light logic to cycle through the lights
+        def run():
+            start_time = time.time()
+            while time.time() - start_time < duration:
+                self.update_light()
+                time.sleep(sleep_time)
+        p = multiprocessing.Process(target=run)
+        p.start()
+        p.join()
+    
+    def update_light(self):
+        self.stop()
+        if self.status == 'red':
+            self.status = 'yellow'
+        elif self.status == 'yellow':
+            self.status = 'green'
+        elif self.status == 'green':
+            self.status = 'red'
+        self.start()
 
     def flash(self, times, speed):
         # Flash the lights using multiprocessong and then join the processes
         subprocesses = []
         for light in self.lights.values():
             p = multiprocessing.Process(target=light.flash, args=(times, speed))
+            p.start()
+            subprocesses.append(p)
+        for p in subprocesses:
+            p.join()
+
+    def random_light(self, delay, total_time):
+        def run():
+            start_time = time.time()
+            while time.time() - start_time < total_time:
+                for light in self.lights.values():
+                    if random.random() < 0.5:
+                        light.turn_on()
+                    else:
+                        light.turn_off()
+                    time.sleep(delay)
+        subprocesses = []
+        for light in self.lights.values():
+            p = multiprocessing.Process(target=run)
             p.start()
             subprocesses.append(p)
         for p in subprocesses:
@@ -67,6 +107,10 @@ if __name__ == '__main__':
         GPIO.setmode(GPIO.BCM)
         semaphore = SemaphoreLED(args.red, args.yellow, args.green)
         semaphore.xmas_tree(10)
+
+        #try update logic
+        semaphore.on(10, 0.1)
+            
     finally:   
         GPIO.cleanup()
     
