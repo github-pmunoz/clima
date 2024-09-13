@@ -1,0 +1,73 @@
+#!/usr/bin/env python
+
+"""
+This is a Python script for controlling GPIO pins.
+"""
+import RPi.GPIO as GPIO
+import time
+import argparse
+
+class LED:
+    def __init__(self, pin):
+        self.pin = pin
+        GPIO.setup(self.pin, GPIO.OUT)
+
+    def turn_on(self):
+        GPIO.output(self.pin, GPIO.HIGH)
+
+    def turn_off(self):
+        GPIO.output(self.pin, GPIO.LOW)
+
+    def flash(self, times):
+        for _ in range(times):
+            self.turn_off()
+            self.turn_on()
+            time.sleep(0.5)
+            self.turn_off()
+            time.sleep(0.5)
+
+class SemaphoreLED:
+    def __init__(red_pin, yellow_pin, green_pin):
+        self.lights = {
+            'red': LED(red_pin),
+            'yellow': LED(yellow_pin),
+            'green': LED(green_pin)
+        }
+
+    def flash(self, times):
+        subprocs = []
+        for light in self.lights.values():
+            subproc = Process(target=light.flash, args=(times,))
+            subproc.start()
+            subprocs.append(subproc)
+        for subproc in subprocs:
+            subproc.join()
+
+    def xmas_tree(self, duration):
+        start_time = time.time()
+        while time.time() - start_time < duration:
+            self.flash(3)
+            time.sleep(0.5)
+            self.flash(2)
+            time.sleep(0.25)
+            self.flash(1)
+            time.sleep(0.1)
+
+"""
+Usage:
+python SemaphoreLED.py --red 22 --yellow 24 --green 27
+"""
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--red', type=int, required=True)
+    parser.add_argument('--yellow', type=int, required=True)
+    parser.add_argument('--green', type=int, required=True)
+    args = parser.parse_args()
+
+    try:
+        GPIO.setmode(GPIO.BCM)
+        semaphore = SemaphoreLED(args.red, args.yellow, args.green)
+        semaphore.xmas_tree(10)
+    finally:   
+        GPIO.cleanup()
+    
