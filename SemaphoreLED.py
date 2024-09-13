@@ -47,6 +47,12 @@ class SemaphoreLED:
         p = multiprocessing.Process(target=run)
         p.start()
         p.join()
+
+    def start(self):
+        self.lights[self.status].turn_on()
+    
+    def stop(self):
+        self.lights[self.status].turn_off()
     
     def update_light(self):
         self.stop()
