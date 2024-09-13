@@ -39,7 +39,7 @@ class SemaphoreLED:
         # Flash the lights using multiprocessong and then join the processes
         subprocesses = []
         for light in self.lights.values():
-            p = multiprocessing.Process(target=light.flash, args=(times,))
+            p = multiprocessing.Process(target=light.flash, args=(times, speed))
             p.start()
             subprocesses.append(p)
         for p in subprocesses:
