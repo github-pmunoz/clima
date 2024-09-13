@@ -47,12 +47,9 @@ class SemaphoreLED:
     def xmas_tree(self, duration):
         start_time = time.time()
         while time.time() - start_time < duration:
-            self.flash(3)
-            time.sleep(0.5)
-            self.flash(2)
-            time.sleep(0.25)
-            self.flash(1)
-            time.sleep(0.1)
+            self.flash(3, 2)
+            self.flash(3, 4)
+            self.flash(1, 10)
 
 """
 Usage:
