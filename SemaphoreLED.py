@@ -6,6 +6,7 @@ This is a Python script for controlling GPIO pins.
 import RPi.GPIO as GPIO
 import time
 import argparse
+iomport multiprocessing
 
 class LED:
     def __init__(self, pin):
