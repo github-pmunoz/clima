@@ -18,13 +18,13 @@ class LED:
     def turn_off(self):
         GPIO.output(self.pin, GPIO.LOW)
 
-    def flash(self, times):
+    def flash(self, times, speed):
         for _ in range(times):
             self.turn_off()
             self.turn_on()
-            time.sleep(0.5)
+            time.sleep(1.0/speed)
             self.turn_off()
-            time.sleep(0.5)
+            time.sleep(1.0/speed)
 
 class SemaphoreLED:
     def __init__(red_pin, yellow_pin, green_pin):
@@ -34,14 +34,15 @@ class SemaphoreLED:
             'green': LED(green_pin)
         }
 
-    def flash(self, times):
-        subprocs = []
+    def flash(self, times, speed):
+        # Flash the lights using multiprocessong and then join the processes
+        subprocesses = []
         for light in self.lights.values():
-            subproc = Process(target=light.flash, args=(times,))
-            subproc.start()
-            subprocs.append(subproc)
-        for subproc in subprocs:
-            subproc.join()
+            p = multiprocessing.Process(target=light.flash, args=(times,))
+            p.start()
+            subprocesses.append(p)
+        for p in subprocesses:
+            p.join()
 
     def xmas_tree(self, duration):
         start_time = time.time()
