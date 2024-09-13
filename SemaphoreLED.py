@@ -57,11 +57,11 @@ class SemaphoreLED:
     def update_light(self):
         self.stop()
         if self.status == 'red':
-            self.status = 'yellow'
-        elif self.status == 'yellow':
             self.status = 'green'
-        elif self.status == 'green':
+        elif self.status == 'yellow':
             self.status = 'red'
+        elif self.status == 'green':
+            self.status = 'yellow'
         self.start()
 
     def flash(self, times, speed):
@@ -116,7 +116,7 @@ if __name__ == '__main__':
     try:
         GPIO.setmode(GPIO.BCM)
         semaphore = SemaphoreLED(args.red, args.yellow, args.green)
-        semaphore.on(10, 1)
+        semaphore.on(10, 0.1)
             
     finally:   
         GPIO.cleanup()
