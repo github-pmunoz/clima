@@ -89,8 +89,11 @@ class SemaphoreLED:
         start_time = time.time()
         while time.time() - start_time < duration:
             self.flash(3, 2)
+            self.random_light(0.5, 3)
             self.flash(3, 4)
+            self.random_light(0.25, 2)
             self.flash(1, 10)
+            self.random_light(0.1, 1)
 
 """
 Usage:
