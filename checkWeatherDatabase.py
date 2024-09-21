@@ -1,6 +1,7 @@
 import sys
 import sqlite3
 import datetime
+import numpy as np
 import matplotlib.pyplot as plt
 
 # Get the filename argument from the shell
@@ -34,6 +35,15 @@ plt.xlabel('Timestamp')
 plt.ylabel('Value')
 plt.title('Weather Measurements in the Last 24 Hours')
 plt.legend()
+
+# Interpolate the data points
+timestamps_interp = np.linspace(min(timestamps), max(timestamps), 100)
+temperatures_interp = np.interp(timestamps_interp, timestamps, temperatures)
+humidities_interp = np.interp(timestamps_interp, timestamps, humidities)
+
+# Plot the smooth lines
+plt.plot(timestamps_interp, temperatures_interp, label='Temperature (Smooth)')
+plt.plot(timestamps_interp, humidities_interp, label='Humidity (Smooth)')
 
 # Show the plot
 plt.show()
