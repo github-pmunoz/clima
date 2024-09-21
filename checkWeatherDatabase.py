@@ -23,8 +23,8 @@ temperatures = []
 humidities = []
 for row in rows:
     timestamps.append(row[0])
-    temperatures.append(row[2])
-    humidities.append(row[3])
+    temperatures.append(row[1])
+    humidities.append(row[2])
 
 # Create a plot
 plt.plot(timestamps, temperatures, label='Temperature')
@@ -36,14 +36,19 @@ plt.ylabel('Value')
 plt.title('Weather Measurements in the Last 24 Hours')
 plt.legend()
 
-# Interpolate the data points
-timestamps_interp = np.linspace(min(timestamps), max(timestamps), 100)
-temperatures_interp = np.interp(timestamps_interp, timestamps, temperatures)
-humidities_interp = np.interp(timestamps_interp, timestamps, humidities)
+# Interpolate the data points using an exponential moving average
+temperatures = np.array(temperatures)
+humidities = np.array(humidities)
+temperatures = np.convolve(temperatures, np.ones(24)/24, mode='valid')
+humidities = np.convolve(humidities, np.ones(24)/24, mode='valid')
 
-# Plot the smooth lines
-plt.plot(timestamps_interp, temperatures_interp, label='Temperature (Smooth)')
-plt.plot(timestamps_interp, humidities_interp, label='Humidity (Smooth)')
+# calculate a band of uncertainty
+temperature_std = np.std(temperatures)
+humidity_std = np.std(humidities)
+
+# Plot the interpolated data
+plt.plot(timestamps[12:], temperatures, label='Temperature (Interpolated)', linestyle='dashed')
+plt.fill_between(timestamps[12:], temperatures - temperature_std, temperatures + temperature_std, alpha=0.2)
 
 # Show the plot
 plt.show()
