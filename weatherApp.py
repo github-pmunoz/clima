@@ -3,7 +3,7 @@ import sqlite3
 from DHT11 import DHT11
 
 # Define the pin number for the DHT11 sensor
-DHT_PIN = 4
+DHT_PIN = 27
 sensor = DHT11(DHT_PIN)
 
 # Define the time interval between measurements (in seconds)
