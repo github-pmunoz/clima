@@ -55,6 +55,8 @@ timestamps = timestamps[23:]
 min_length = min(len(timestamps), len(bollinger_upper), len(bollinger_lower))
 bollinger_upper = bollinger_upper[:min_length]
 bollinger_lower = bollinger_lower[:min_length]
+temperature_std = moving_std[:min_length]
+tempertures| = temperatures[23:]
 
 # Plot the Bollinger Bands
 plt.plot(timestamps, moving_average, label='Moving Average')
