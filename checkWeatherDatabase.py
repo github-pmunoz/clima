@@ -1,33 +1,39 @@
 import sys
 import sqlite3
+import datetime
+import matplotlib.pyplot as plt
 
 # Get the filename argument from the shell
 filename = sys.argv[1]
 
-# Connect to the database
+# Query the database for measurements in the last 24 hours that are not null values
 conn = sqlite3.connect(filename)
-
-# Create a cursor object to execute SQL queries
 cursor = conn.cursor()
-
-# Create a table to store weather data
-cursor.execute('''
-    CREATE TABLE IF NOT EXISTS weather (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        city TEXT,
-        temperature REAL,
-        humidity REAL
-    )
-''')
-
-# Query the database
-cursor.execute('SELECT * FROM weather')
+query = "SELECT * FROM measurements WHERE timestamp > ? AND temperature IS NOT NULL AND humidity IS NOT NULL"
+start_time = int((datetime.datetime.now() - datetime.timedelta(days=1)).timestamp())
+cursor.execute(query, (start_time,))
 rows = cursor.fetchall()
-
-# Print the results
-for row in rows:
-    print(row)
-
-# Close the cursor and the connection
 cursor.close()
 conn.close()
+
+# Extract the temperature and humidity values
+timestamps = []
+temperatures = []
+humidities = []
+for row in rows:
+    timestamps.append(row[0])
+    temperatures.append(row[2])
+    humidities.append(row[3])
+
+# Create a plot
+plt.plot(timestamps, temperatures, label='Temperature')
+plt.plot(timestamps, humidities, label='Humidity')
+
+# Customize the plot
+plt.xlabel('Timestamp')
+plt.ylabel('Value')
+plt.title('Weather Measurements in the Last 24 Hours')
+plt.legend()
+
+# Show the plot
+plt.show()
