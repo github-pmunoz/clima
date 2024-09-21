@@ -52,8 +52,9 @@ bollinger_lower = moving_average - 2 * moving_std
 
 # Asegurarse de que las longitudes de los timestamps y las bandas de Bollinger coinciden
 timestamps = timestamps[23:]
-bollinger_upper = bollinger_upper[:len(timestamps)]
-bollinger_lower = bollinger_lower[:len(timestamps)]
+min_length = min(len(timestamps), len(bollinger_upper), len(bollinger_lower))
+bollinger_upper = bollinger_upper[:min_length]
+bollinger_lower = bollinger_lower[:min_length]
 
 # Plot the Bollinger Bands
 plt.plot(timestamps, moving_average, label='Moving Average')
