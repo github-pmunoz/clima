@@ -1,40 +1,40 @@
-import Adafruit_DHT
-import tweepy
+import time
+import sqlite3
+from DHT11 import DHT11
 
-# Set up GPIO sensor
-sensor = Adafruit_DHT.DHT11
-pin = 4
+# Define the pin number for the DHT11 sensor
+DHT_PIN = 4
+sensor = DHT11(DHT_PIN)
 
-# Set up Twitter API credentials
-consumer_key = 'YOUR_CONSUMER_KEY'
-consumer_secret = 'YOUR_CONSUMER_SECRET'
-access_token = 'YOUR_ACCESS_TOKEN'
-access_token_secret = 'YOUR_ACCESS_TOKEN_SECRET'
+# Define the time interval between measurements (in seconds)
+MEASUREMENT_INTERVAL = 60
 
-# Authenticate with Twitter API
-auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-auth.set_access_token(access_token, access_token_secret)
-api = tweepy.API(auth)
+# Connect to the SQLite database
+conn = sqlite3.connect('weather_data.db')
+c = conn.cursor()
 
-# Function to measure temperature and humidity
-def measure_temperature_humidity():
-    humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
-    return humidity, temperature
+# Create the table if it doesn't exist
+c.execute('''CREATE TABLE IF NOT EXISTS measurements
+             (timestamp INTEGER, temperature REAL, humidity REAL)''')
 
-# Function to post daily summaries on Twitter
-def post_daily_summary(summary):
-    api.update_status(summary)
+# Function to store the measurement in the database
+def store_measurement(timestamp, temperature, humidity):
+    c.execute("INSERT INTO measurements VALUES (?, ?, ?)", (timestamp, temperature, humidity))
+    conn.commit()
 
-# Main function
-def main():
+# Main loop
+while True:
+    # Get the current timestamp
+    timestamp = int(time.time())
+
     # Measure temperature and humidity
-    humidity, temperature = measure_temperature_humidity()
+    humidity, temperature = sensor.measure()
 
-    # Create daily summary
-    summary = f"Today's temperature: {temperature}°C\nToday's humidity: {humidity}%"
+    # Store the measurement in the database
+    store_measurement(timestamp, temperature, humidity)
 
-    # Post daily summary on Twitter
-    post_daily_summary(summary)
+    # Wait for the next measurement
+    time.sleep(MEASUREMENT_INTERVAL)
 
-if __name__ == '__main__':
-    main()
+# Close the database connection
+conn.close()
