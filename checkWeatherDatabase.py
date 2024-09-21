@@ -39,16 +39,27 @@ plt.legend()
 # Interpolate the data points using an exponential moving average
 temperatures = np.array(temperatures)
 humidities = np.array(humidities)
-temperatures = np.convolve(temperatures, np.ones(24)/24, mode='valid')
-humidities = np.convolve(humidities, np.ones(24)/24, mode='valid')
 
-# calculate a band of uncertainty
-temperature_std = np.std(temperatures)
-humidity_std = np.std(humidities)
+# Calcular la media móvil
+moving_average = np.convolve(temperatures, np.ones(24)/24, mode='valid')
 
-# Fix the lengths of timestamps and temperatures
-timestamps = timestamps[12:]
-temperatures = temperatures[:len(timestamps)]
+# Calcular la desviación estándar móvil
+moving_std = np.array([np.std(temperatures[i - 23 : i + 1]) for i in range(23, len(temperatures))])
+
+# Calcular las bandas de Bollinger
+bollinger_upper = moving_average + 2 * moving_std
+bollinger_lower = moving_average - 2 * moving_std
+
+# Asegurarse de que las longitudes de los timestamps y las bandas de Bollinger coinciden
+timestamps = timestamps[23:]
+bollinger_upper = bollinger_upper[:len(timestamps)]
+bollinger_lower = bollinger_lower[:len(timestamps)]
+
+# Plot the Bollinger Bands
+plt.plot(timestamps, moving_average, label='Moving Average')
+plt.plot(timestamps, bollinger_upper, label='Upper Bollinger Band')
+plt.plot(timestamps, bollinger_lower, label='Lower Bollinger Band')
+plt.fill_between(timestamps, bollinger_lower, bollinger_upper, alpha=0.2)
 
 # Plot the interpolated data
 plt.plot(timestamps, temperatures, label='Temperature (Interpolated)')
