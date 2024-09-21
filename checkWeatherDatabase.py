@@ -46,9 +46,13 @@ humidities = np.convolve(humidities, np.ones(24)/24, mode='valid')
 temperature_std = np.std(temperatures)
 humidity_std = np.std(humidities)
 
+# Fix the lengths of timestamps and temperatures
+timestamps = timestamps[12:]
+temperatures = temperatures[:len(timestamps)]
+
 # Plot the interpolated data
-plt.plot(timestamps[12:], temperatures, label='Temperature (Interpolated)', linestyle='dashed')
-plt.fill_between(timestamps[12:], temperatures - temperature_std, temperatures + temperature_std, alpha=0.2)
+plt.plot(timestamps, temperatures, label='Temperature (Interpolated)')
+plt.fill_between(timestamps, temperatures - temperature_std, temperatures + temperature_std, alpha=0.2)
 
 # Show the plot
 plt.show()
