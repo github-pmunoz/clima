@@ -19,6 +19,10 @@ c.execute('''CREATE TABLE IF NOT EXISTS measurements
 
 # Function to store the measurement in the database
 def store_measurement(timestamp, temperature, humidity):
+    # insert nan if failed to read data
+    if humidity is None or temperature is None:
+        humidity = float('nan')
+        temperature = float('nan')
     c.execute("INSERT INTO measurements VALUES (?, ?, ?)", (timestamp, temperature, humidity))
     conn.commit()
 
@@ -28,7 +32,11 @@ while True:
     timestamp = int(time.time())
 
     # Measure temperature and humidity
-    humidity, temperature = sensor.measure()
+    try:
+        humidity, temperature = sensor.measure()
+    except RuntimeError as e:
+        
+        continue
 
     # Store the measurement in the database
     store_measurement(timestamp, temperature, humidity)
