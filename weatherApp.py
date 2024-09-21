@@ -32,11 +32,17 @@ while True:
     timestamp = int(time.time())
 
     # Measure temperature and humidity
+
     try:
         humidity, temperature = sensor.measure()
-    except RuntimeError as e:
-        
-        continue
+        print(f"Timestamp: {timestamp}")
+        print(f"Humidity: {humidity}%")
+        print(f"Temperature: {temperature}°C")
+        print()
+    except Exception as e:
+        humidity = None
+        temperature = None
+        pass
 
     # Store the measurement in the database
     store_measurement(timestamp, temperature, humidity)

@@ -9,8 +9,6 @@ class DHT11(GPIODevice):
 
     def measure(self):
         humidity, temperature = Adafruit_DHT.read_retry(Adafruit_DHT.DHT11, self.pin)
-        if humidity is None or temperature is None:
-            raise RuntimeError("Failed to read data from DHT11 sensor")
         return humidity, temperature
 
 
