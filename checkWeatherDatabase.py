@@ -72,14 +72,19 @@ scatter = axs[0, 0].scatter(ema_temperature, ema_humidity, c=colors, marker='o',
 axs[0, 0].set_facecolor('0.1')
 axs[0, 0].set_xlabel('Temperature (°C)')
 axs[0, 0].set_ylabel('Humidity (%)')
-# Line plot of temperature vs time
-axs[0, 1].plot(ema_temperature)
+
+# Line plot of temperature vs time using the same dark background
+axs[0, 1].plot(ema_temperature, c=colors)
 axs[0, 1].set_xlabel('Time')
 axs[0, 1].set_ylabel('Temperature (°C)')
-# Line plot of humidity vs time
-axs[1, 0].plot(ema_humidity)
+axs[0, 1].set_facecolor('0.1')
+
+# Line plot of humidity vs time using the same dark background
+axs[1, 0].plot(ema_humidity, c=colors)
 axs[1, 0].set_xlabel('Time')
 axs[1, 0].set_ylabel('Humidity (%)')
+axs[1, 0].set_facecolor('0.1')
+
 # Empty plot
 axs[1, 1].axis('off')
 # Adjust the layout
