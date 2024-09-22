@@ -74,13 +74,13 @@ axs[0, 0].set_xlabel('Temperature (°C)')
 axs[0, 0].set_ylabel('Humidity (%)')
 
 # Line plot of temperature vs time using the same dark background
-axs[0, 1].plot(ema_temperature, colormap=colors)
+axs[0, 1].plot(ema_temperature, cmap=colors)
 axs[0, 1].set_xlabel('Time')
 axs[0, 1].set_ylabel('Temperature (°C)')
 axs[0, 1].set_facecolor('0.1')
 
 # Line plot of humidity vs time using the same dark background
-axs[1, 0].plot(ema_humidity, colormap=colors)
+axs[1, 0].plot(ema_humidity, cmap=colors)
 axs[1, 0].set_xlabel('Time')
 axs[1, 0].set_ylabel('Humidity (%)')
 axs[1, 0].set_facecolor('0.1')
