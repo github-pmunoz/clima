@@ -72,6 +72,22 @@ colors = plt.cm.viridis(colors)
 
 # Create the scatter plot
 scatter = axs[0, 0].scatter(ema_temperature, ema_humidity, c=colors)
+
+# add on top arrows on direction of the path given by time
+scatter_path = Path(np.array([ema_temperature, ema_humidity]).T)
+scatter_path_patch = PathPatch(scatter_path, facecolor='none', edgecolor='none')
+axs[0, 0].add_patch(scatter_path_patch)
+for i in range(len(ema_temperature) - 1):
+    arrow = Arrow(ema_temperature[i], ema_humidity[i], ema_temperature[i + 1] - ema_temperature[i], ema_humidity[i + 1] - ema_humidity[i], color=colors[i], alpha=0.5)
+    axs[0, 0].add_patch(arrow)
+
+# Add colorbar
+cbar = plt.colorbar(scatter, ax=axs[0, 0])
+cbar.set_label('Time')
+cbar.set_ticks([0, 1])
+cbar.set_ticklabels(['Start', 'End'])
+
+
 axs[0, 0].set_xlabel('Temperature (°C)')
 axs[0, 0].set_ylabel('Humidity (%)')
 # Line plot of temperature vs time
