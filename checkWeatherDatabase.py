@@ -39,7 +39,7 @@ humidities = np.array(humidities)
 # Remove outliers
 temperature_mean = np.mean(temperatures)
 temperature_std = np.std(temperatures)
-temperature_threshold = 3 * temperature_std
+temperature_threshold = 2 * temperature_std
 temperatures = np.array([temp if abs(temp - temperature_mean) < temperature_threshold else np.nan for temp in temperatures])
 
 humidity_mean = np.mean(humidities)
@@ -73,7 +73,5 @@ plt.fill_between(timestamps, bollinger_lower, bollinger_upper, alpha=0.2)
 
 # Plot the interpolated data
 plt.plot(timestamps, temperatures, label='Temperature (Interpolated)')
-plt.fill_between(timestamps, temperatures - temperature_std, temperatures + temperature_std, alpha=0.2)
-
 # Show the plot
 plt.show()
