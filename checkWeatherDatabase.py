@@ -50,7 +50,7 @@ humidities = sigmaClipping(humidities)
 moving_average_window = 50
 ema_temperature = np.convolve(temperatures, np.ones(moving_average_window)/moving_average_window, mode='valid')
 ema_humidity = np.convolve(humidities, np.ones(moving_average_window)/moving_average_window, mode='valid')
-ema_timestamps = timestamps[moving_average_window//2:-moving_average_window//2]
+ema_timestamps = np.convolve(ema_timestamps, np.ones(moving_average_window)/moving_average_window, mode='valid')
 
 # Plot the temperature and humidity data (Ema only) 
 # use a 2x2 grid of subplots
