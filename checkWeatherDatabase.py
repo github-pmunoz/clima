@@ -68,16 +68,8 @@ colors = colors / max(colors)
 colors = plt.cm.plasma(colors)
 
 # Create the scatter plot on dark gray background
-scatter = axs[0, 0].scatter(ema_temperature, ema_humidity, c=colors)
+scatter = axs[0, 0].scatter(ema_temperature, ema_humidity, c=colors, marker='o', s=13)
 axs[0, 0].set_facecolor('0.1')
-
-# Add colorbar
-cbar = plt.colorbar(scatter, ax=axs[0, 0])
-cbar.set_label('Time')
-cbar.set_ticks([0, 1])
-cbar.set_ticklabels(['Start', 'End'])
-
-
 axs[0, 0].set_xlabel('Temperature (°C)')
 axs[0, 0].set_ylabel('Humidity (%)')
 # Line plot of temperature vs time
