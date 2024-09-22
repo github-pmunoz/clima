@@ -40,6 +40,17 @@ plt.legend()
 temperatures = np.array(temperatures)
 humidities = np.array(humidities)
 
+# Remove outliers
+temperature_mean = np.mean(temperatures)
+temperature_std = np.std(temperatures)
+temperature_threshold = 3 * temperature_std
+temperatures = np.array([temp if abs(temp - temperature_mean) < temperature_threshold else np.nan for temp in temperatures])
+
+humidity_mean = np.mean(humidities)
+humidity_std = np.std(humidities)
+humidity_threshold = 3 * humidity_std
+humidities = np.array([hum if abs(hum - humidity_mean) < humidity_threshold else np.nan for hum in humidities])
+
 # Calcular la media móvil
 moving_average = np.convolve(temperatures, np.ones(24)/24, mode='valid')
 
