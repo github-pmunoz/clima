@@ -26,12 +26,6 @@ for row in rows:
     temperatures.append(row[1])
     humidities.append(row[2])
 
-# Customize the plot
-plt.xlabel('Timestamp')
-plt.ylabel('Value')
-plt.title('Weather Measurements in the Last 24 Hours')
-plt.legend()
-
 # Interpolate the data points using an exponential moving average
 temperatures = np.array(temperatures)
 humidities = np.array(humidities)
@@ -65,6 +59,13 @@ bollinger_lower = bollinger_lower[:min_length]
 temperature_std = moving_std[:min_length]
 temperatures = temperatures[23:]  # Corrected spelling of variable name
 
+# Customize the plot
+plt.xlabel('Timestamp')
+plt.ylabel('Value')
+plt.title('Weather Measurements in the Last 24 Hours')
+plt.ylim(min(temperatures)*0.618, max(temperatures)/0.618)
+plt.legend()
+
 # Plot the Bollinger Bands
 plt.plot(timestamps, moving_average, label='Moving Average')
 plt.plot(timestamps, bollinger_upper, label='Upper Bollinger Band')
@@ -73,5 +74,6 @@ plt.fill_between(timestamps, bollinger_lower, bollinger_upper, alpha=0.2)
 
 # Plot the interpolated data
 plt.plot(timestamps, temperatures, label='Temperature (Interpolated)')
+
 # Show the plot
 plt.show()
