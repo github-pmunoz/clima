@@ -4,6 +4,17 @@ import datetime
 import numpy as np
 import matplotlib.pyplot as plt
 
+def sigmaClipping(data, threshold=3):
+    mean = np.mean(data)
+    std = np.std(data)
+    data = np.array([value if abs(value - mean) < threshold * std else np.nan for value in data])
+    std = np.std(data)
+    while std > threshold * std:
+        mean = np.mean(data)
+        data = np.array([value if abs(value - mean) < threshold * std else np.nan for value in data])
+        std = np.std(data)
+    return data
+
 # Get the filename argument from the shell
 filename = sys.argv[1]
 
@@ -30,50 +41,40 @@ for row in rows:
 temperatures = np.array(temperatures)
 humidities = np.array(humidities)
 
-# Remove outliers
-temperature_mean = np.mean(temperatures)
-temperature_std = np.std(temperatures)
-temperature_threshold = 2 * temperature_std
-temperatures = np.array([temp if abs(temp - temperature_mean) < temperature_threshold else np.nan for temp in temperatures])
+# Remove outliers using sigma clipping
+temperatures = sigmaClipping(temperatures)
+humidities = sigmaClipping(humidities)
 
-humidity_mean = np.mean(humidities)
-humidity_std = np.std(humidities)
-humidity_threshold = 3 * humidity_std
-humidities = np.array([hum if abs(hum - humidity_mean) < humidity_threshold else np.nan for hum in humidities])
+# Exponential moving average for temperature and humidity
+moving_average_window = 12
+ema_temperature = np.convolve(temperatures, np.ones(moving_average_window)/moving_average_window, mode='valid')
+ema_humidity = np.convolve(humidities, np.ones(moving_average_window)/moving_average_window, mode='valid')
 
-# Calcular la media móvil
-moving_average = np.convolve(temperatures, np.ones(24)/24, mode='valid')
-
-# Calcular la desviación estándar móvil
-moving_std = np.array([np.std(temperatures[i - 23 : i + 1]) for i in range(23, len(temperatures))])
-
-# Calcular las bandas de Bollinger
-bollinger_upper = moving_average + 2 * moving_std
-bollinger_lower = moving_average - 2 * moving_std
-
-# Asegurarse de que las longitudes de los timestamps y las bandas de Bollinger coinciden
-timestamps = timestamps[23:]
-min_length = min(len(timestamps), len(bollinger_upper), len(bollinger_lower))
-bollinger_upper = bollinger_upper[:min_length]
-bollinger_lower = bollinger_lower[:min_length]
-temperature_std = moving_std[:min_length]
-temperatures = temperatures[23:]  # Corrected spelling of variable name
-
-# Customize the plot
-plt.xlabel('Timestamp')
-plt.ylabel('Value')
-plt.title('Weather Measurements in the Last 24 Hours')
-plt.ylim(min(temperatures)*0.618, max(temperatures)/0.618)
-plt.legend()
-
-# Plot the Bollinger Bands
-plt.plot(timestamps, moving_average, label='Moving Average')
-plt.plot(timestamps, bollinger_upper, label='Upper Bollinger Band')
-plt.plot(timestamps, bollinger_lower, label='Lower Bollinger Band')
-plt.fill_between(timestamps, bollinger_lower, bollinger_upper, alpha=0.2)
-
-# Plot the interpolated data
-plt.plot(timestamps, temperatures, label='Temperature (Interpolated)')
+# Plot the temperature and humidity data (Ema only) 
+# use a 2x2 grid of subplots
+# (1, 1) is scatter plot of temperature vs humidity
+# (1, 2) is line plot of temperature vs time
+# (2, 1) is line plot of humidity vs time
+# (2, 2) is empty
+fig, axs = plt.subplots(2, 2)
+fig.suptitle('Temperature and Humidity Data')
+# Scatter plot of temperature vs humidity
+axs[0, 0].scatter(ema_temperature, ema_humidity)
+axs[0, 0].set_xlabel('Temperature (°C)')
+axs[0, 0].set_ylabel('Humidity (%)')
+# Line plot of temperature vs time
+axs[0, 1].plot(ema_temperature)
+axs[0, 1].set_xlabel('Time')
+axs[0, 1].set_ylabel('Temperature (°C)')
+# Line plot of humidity vs time
+axs[1, 0].plot(ema_humidity)
+axs[1, 0].set_xlabel('Time')
+axs[1, 0].set_ylabel('Humidity (%)')
+# Empty plot
+axs[1, 1].axis('off')
+# Adjust the layout
+plt.tight_layout()
+plt.subplots_adjust(top=0.9)
 
 # Show the plot
 plt.show()
