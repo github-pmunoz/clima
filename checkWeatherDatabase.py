@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import PathPatch, Path, Arrow
 from matplotlib.collections import LineCollection
-
+from scipy.interpolate import interp1d
 
 def sigmaClipping(data, threshold=3):
     mean = np.mean(data)
@@ -69,8 +69,8 @@ colors = np.array(ema_timestamps) - min(ema_timestamps)
 colors = colors / max(colors)
 colors = plt.cm.plasma(colors)
 
-# Create the scatter plot on dark gray background
-scatter = axs[0, 0].scatter(ema_temperature, ema_humidity, c=colors, marker='o', s=10)
+# Create the scatter plot on dark gray background, and fill the interior of the polygon formed by the data points
+axs[0, 0].scatter(ema_temperature, ema_humidity, color=colors)
 axs[0, 0].set_facecolor('0.1')
 axs[0, 0].set_xlabel('Temperature (°C)')
 axs[0, 0].set_ylabel('Humidity (%)')
@@ -88,7 +88,7 @@ quartiles = np.percentile(ema_humidity, [25, 50, 75])
 #plot the median
 axs[1, 0].axhline(quartiles[1], color='cyan', linestyle='--')
 #plot the mean of 25% and 75%
-axs[1, 0].axhline(np.mean(quartiles[0:2]), color='cyam', linestyle='--')
+axs[1, 0].axhline(np.mean(quartiles[0:2]), color='cyan', linestyle='--')
 
 axs[1, 0].plot(ema_timestamps, ema_humidity, color='cyan')
 axs[1, 0].set_facecolor('0.1')
