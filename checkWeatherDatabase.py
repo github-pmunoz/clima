@@ -75,7 +75,7 @@ axs[0, 0].set_facecolor('0.1')
 axs[0, 0].set_xlabel('Temperature (°C)')
 axs[0, 0].set_ylabel('Humidity (%)')
 axs[0, 0].xlim = (min(ema_temperature), max(ema_temperature))
-axs[0, 0].ylim = (min(ema_humidity), max(ema_humidity)
+axs[0, 0].ylim = (min(ema_humidity), max(ema_humidity))
 
 # Crear los segmentos de línea
 points = np.array([ema_temperature, ema_humidity]).T.reshape(-1, 1, 2)
