@@ -68,7 +68,7 @@ colors = colors / max(colors)
 colors = plt.cm.plasma(colors)
 
 # Create the scatter plot on dark gray background
-scatter = axs[0, 0].scatter(ema_temperature, ema_humidity, c=colors, marker='o', s=13)
+scatter = axs[0, 0].scatter(ema_temperature, ema_humidity, c=colors, marker='o', s=10)
 axs[0, 0].set_facecolor('0.1')
 axs[0, 0].set_xlabel('Temperature (°C)')
 axs[0, 0].set_ylabel('Humidity (%)')
