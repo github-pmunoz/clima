@@ -58,9 +58,9 @@ ema_humidity = np.convolve(humidities, np.ones(moving_average_window)/moving_ave
 # (2, 2) is empty
 fig, axs = plt.subplots(2, 2)
 fig.suptitle('Temperature and Humidity Data')
-# 2D hexagonal hist of temperature vs humidity plus scatter with arrows
+# 2D hexagonal hist of temperature vs humidity 
 axs[0, 0].hexbin(ema_temperature, ema_humidity, gridsize=50, cmap='viridis', bins='log')
-axs[0, 0].scatter(ema_temperature, ema_humidity, color='red',marker='->')
+axs[0, 0].scatter(ema_temperature, ema_humidity, color='red',marker='-', backfacecolor='none')
 axs[0, 0].set_xlabel('Temperature (°C)')
 axs[0, 0].set_ylabel('Humidity (%)')
 # Line plot of temperature vs time
