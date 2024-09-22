@@ -84,7 +84,7 @@ axs[0, 1].set_ylabel('Temperature (°C)')
 axs[0, 1].xlim = (min(ema_timestamps), max(ema_timestamps))
 axs[0, 1].ylim = (min(ema_temperature), max(ema_temperature))
 
-axs[1, 0].plot(ema_timestamps, ema_humidity, color='blue')
+axs[1, 0].plot(ema_timestamps, ema_humidity, color='cyan')
 axs[1, 0].set_facecolor('0.1')
 axs[1, 0].set_xlabel('Time')
 axs[1, 0].set_ylabel('Humidity (%)')
