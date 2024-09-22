@@ -50,6 +50,7 @@ humidities = sigmaClipping(humidities)
 moving_average_window = 50
 ema_temperature = np.convolve(temperatures, np.ones(moving_average_window)/moving_average_window, mode='valid')
 ema_humidity = np.convolve(humidities, np.ones(moving_average_window)/moving_average_window, mode='valid')
+ema_timestamps = timestamps[moving_average_window//2:-moving_average_window//2]
 
 # Plot the temperature and humidity data (Ema only) 
 # use a 2x2 grid of subplots
@@ -65,11 +66,9 @@ plt.style.use('dark_background')
 
 # Scatter plot of temperature vs humidity using a gradient of colors for distinguishing the time
 # Convert the timestamps to a gradient of colors using a black background
-colors = np.array(timestamps) - min(timestamps)
+colors = np.array(ema_timestamps) - min(ema_timestamps)
 colors = colors / max(colors)
-colors = 1 - colors
 colors = plt.cm.viridis(colors)
-colors = colors[:, :3]
 
 # Create the scatter plot
 scatter = axs[0, 0].scatter(ema_temperature, ema_humidity, c=colors)
