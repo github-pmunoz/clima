@@ -69,12 +69,13 @@ colors = np.array(ema_timestamps) - min(ema_timestamps)
 colors = colors / max(colors)
 colors = plt.cm.plasma(colors)
 
-
 # Create the scatter plot on dark gray background
 scatter = axs[0, 0].scatter(ema_temperature, ema_humidity, c=colors, marker='o', s=10)
 axs[0, 0].set_facecolor('0.1')
 axs[0, 0].set_xlabel('Temperature (°C)')
 axs[0, 0].set_ylabel('Humidity (%)')
+axs[0, 0].xlim = (min(ema_temperature), max(ema_temperature))
+axs[0, 0].ylim = (min(ema_humidity), max(ema_humidity)
 
 # Crear los segmentos de línea
 points = np.array([ema_temperature, ema_humidity]).T.reshape(-1, 1, 2)
@@ -84,6 +85,11 @@ colors = colors.flatten()
 lc.set_array(colors)
 lc.set_linewidth(2)
 axs[0, 1].add_collection(lc)
+axs[0, 1].set_facecolor('0.1')
+axs[0, 1].set_xlabel('Time')
+axs[0, 1].set_ylabel('Temperature (°C)')
+axs[0, 1].set_xlim(min(ema_timestamps), max(ema_timestamps))
+axs[0, 1].set_ylim(min(ema_temperature), max(ema_temperature))
 
 # add humidity line collections
 points = np.array([ema_timestamps, ema_humidity]).T.reshape(-1, 1, 2)
@@ -93,6 +99,11 @@ colors = colors.flatten()
 lc.set_array(colors)
 lc.set_linewidth(2)
 axs[1, 0].add_collection(lc)
+axs[1, 0].set_facecolor('0.1')
+axs[1, 0].set_xlabel('Time')
+axs[1, 0].set_ylabel('Humidity (%)')
+axs[1, 0].set_xlim(min(ema_timestamps), max(ema_timestamps))
+axs[1, 0].set_ylim(min(ema_humidity), max(ema_humidity))
 
 # Empty plot
 axs[1, 1].axis('off')
