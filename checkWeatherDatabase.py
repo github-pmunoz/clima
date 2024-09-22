@@ -65,19 +65,11 @@ fig.suptitle('Temperature and Humidity Data')
 # Convert the timestamps to a gradient of colors using a black background
 colors = np.array(ema_timestamps) - min(ema_timestamps)
 colors = colors / max(colors)
-colors = plt.cm.viridis(colors)
+colors = plt.cm.plasma(colors)
 
 # Create the scatter plot on dark gray background
 scatter = axs[0, 0].scatter(ema_temperature, ema_humidity, c=color)
 axs[0, 0].set_facecolor('0.1')
-
-# add on top arrows on direction of the path given by time
-scatter_path = Path(np.array([ema_temperature, ema_humidity]).T)
-scatter_path_patch = PathPatch(scatter_path, facecolor='none', edgecolor='none')
-axs[0, 0].add_patch(scatter_path_patch)
-for i in range(len(ema_temperature) - 1):
-    arrow = Arrow(ema_temperature[i], ema_humidity[i], ema_temperature[i + 1] - ema_temperature[i], ema_humidity[i + 1] - ema_humidity[i], color=colors[i], alpha=0.5)
-    axs[0, 0].add_patch(arrow)
 
 # Add colorbar
 cbar = plt.colorbar(scatter, ax=axs[0, 0])
