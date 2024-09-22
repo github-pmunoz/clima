@@ -88,8 +88,7 @@ axs[0, 1].add_collection(lc)
 axs[0, 1].set_facecolor('0.1')
 axs[0, 1].set_xlabel('Time')
 axs[0, 1].set_ylabel('Temperature (°C)')
-axs[0, 1].set_xlim(min(ema_timestamps), max(ema_timestamps))
-axs[0, 1].set_ylim(min(ema_temperature), max(ema_temperature))
+axs[0, 1].set_ylim(min(ema_temperature[~np.isnan(ema_temperature)]), max(ema_temperature[~np.isnan(ema_temperature)]))
 
 # add humidity line collections
 points = np.array([ema_timestamps, ema_humidity]).T.reshape(-1, 1, 2)
@@ -102,8 +101,7 @@ axs[1, 0].add_collection(lc)
 axs[1, 0].set_facecolor('0.1')
 axs[1, 0].set_xlabel('Time')
 axs[1, 0].set_ylabel('Humidity (%)')
-axs[1, 0].set_xlim(min(ema_timestamps), max(ema_timestamps))
-axs[1, 0].set_ylim(min(ema_humidity), max(ema_humidity))
+axs[1, 0].set_ylim(min(ema_humidity[~np.isnan(ema_humidity)]), max(ema_humidity[~np.isnan(ema_humidity)]))
 
 # Empty plot
 axs[1, 1].axis('off')
