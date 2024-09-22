@@ -67,8 +67,9 @@ colors = np.array(ema_timestamps) - min(ema_timestamps)
 colors = colors / max(colors)
 colors = plt.cm.viridis(colors)
 
-# Create the scatter plot
-scatter = axs[0, 0].scatter(ema_temperature, ema_humidity, c=colors)
+# Create the scatter plot on dark gray background
+scatter = axs[0, 0].scatter(ema_temperature, ema_humidity, c=color)
+axs[0, 0].set_facecolor('0.1')
 
 # add on top arrows on direction of the path given by time
 scatter_path = Path(np.array([ema_temperature, ema_humidity]).T)
