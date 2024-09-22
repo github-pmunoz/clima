@@ -26,10 +26,6 @@ for row in rows:
     temperatures.append(row[1])
     humidities.append(row[2])
 
-# Create a plot
-plt.plot(timestamps, temperatures, label='Temperature')
-plt.plot(timestamps, humidities, label='Humidity')
-
 # Customize the plot
 plt.xlabel('Timestamp')
 plt.ylabel('Value')
