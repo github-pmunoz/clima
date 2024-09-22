@@ -47,7 +47,7 @@ temperatures = sigmaClipping(temperatures)
 humidities = sigmaClipping(humidities)
 
 # Exponential moving average for temperature and humidity
-moving_average_window = 12
+moving_average_window = 50
 ema_temperature = np.convolve(temperatures, np.ones(moving_average_window)/moving_average_window, mode='valid')
 ema_humidity = np.convolve(humidities, np.ones(moving_average_window)/moving_average_window, mode='valid')
 
@@ -69,7 +69,7 @@ def plot_track(verts, ax, **kw_args):
     ax.autoscale_view()
 
 # Scatter plot of temperature vs humidity
-plot_track(np.stack((ema_temperature[::10], ema_humidity[::10]), axis=-1), axs[0, 0], color='red', width=0.1)
+plot_track(np.stack((ema_temperature[::30], ema_humidity[::30]), axis=-1), axs[0, 0], color='red', width=0.1)
 
 axs[0, 0].set_xlabel('Temperature (°C)')
 axs[0, 0].set_ylabel('Humidity (%)')
