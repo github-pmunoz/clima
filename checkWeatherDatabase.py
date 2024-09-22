@@ -4,6 +4,8 @@ import datetime
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import PathPatch, Path, Arrow
+from matplotlib.collections import LineCollection
+
 
 def sigmaClipping(data, threshold=3):
     mean = np.mean(data)
@@ -73,17 +75,21 @@ axs[0, 0].set_facecolor('0.1')
 axs[0, 0].set_xlabel('Temperature (°C)')
 axs[0, 0].set_ylabel('Humidity (%)')
 
-# Line plot of temperature vs time using the same dark background
-axs[0, 1].plot(ema_temperature, cmap=colors)
-axs[0, 1].set_xlabel('Time')
-axs[0, 1].set_ylabel('Temperature (°C)')
-axs[0, 1].set_facecolor('0.1')
+# Crear los segmentos de línea
+points = np.array([ema_temperature, ema_humidity]).T.reshape(-1, 1, 2)
+segments = np.concatenate([points[:-1], points[1:]], axis=1)
+lc = LineCollection(segments, cmap='plasma', norm=plt.Normalize(0, 1))
+lc.set_array(colors)
+lc.set_linewidth(2)
+axs[0, 1].add_collection(lc)
 
-# Line plot of humidity vs time using the same dark background
-axs[1, 0].plot(ema_humidity, cmap=colors)
-axs[1, 0].set_xlabel('Time')
-axs[1, 0].set_ylabel('Humidity (%)')
-axs[1, 0].set_facecolor('0.1')
+# add humidity line collections
+points = np.array([ema_timestamps, ema_humidity]).T.reshape(-1, 1, 2)
+segments = np.concatenate([points[:-1], points[1:]], axis=1)
+lc = LineCollection(segments, cmap='plasma', norm=plt.Normalize(0, 1))
+lc.set_array(colors)
+lc.set_linewidth(2)
+axs[1, 0].add_collection(lc)
 
 # Empty plot
 axs[1, 1].axis('off')
