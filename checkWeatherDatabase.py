@@ -60,6 +60,9 @@ ema_humidity = np.convolve(humidities, np.ones(moving_average_window)/moving_ave
 fig, axs = plt.subplots(2, 2)
 fig.suptitle('Temperature and Humidity Data')
 
+# use dark mode
+plt.style.use('dark_background')
+
 # Scatter plot of temperature vs humidity using a gradient of colors for distinguishing the time
 # Convert the timestamps to a gradient of colors using a black background
 colors = np.array(timestamps) - min(timestamps)
