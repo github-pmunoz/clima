@@ -60,17 +60,16 @@ ema_humidity = np.convolve(humidities, np.ones(moving_average_window)/moving_ave
 fig, axs = plt.subplots(2, 2)
 fig.suptitle('Temperature and Humidity Data')
 
-def plot_track(verts, ax, **kw_args):
-    '''Plot followed track: verts is 2D array: x, y'''
-    for xy0, xy1 in zip(verts[:-1], verts[1:]):
-        patch = Arrow(*xy0, *(xy1 - xy0), **kw_args)
-        ax.add_patch(patch)
-    ax.relim()
-    ax.autoscale_view()
+# Scatter plot of temperature vs humidity using a gradient of colors for distinguishing the time
+# Convert the timestamps to a gradient of colors using a black background
+colors = np.array(timestamps) - min(timestamps)
+colors = colors / max(colors)
+colors = 1 - colors
+colors = plt.cm.viridis(colors)
+colors = colors[:, :3]
 
-# Scatter plot of temperature vs humidity
-plot_track(np.stack((ema_temperature[::30], ema_humidity[::30]), axis=-1), axs[0, 0], color='red', width=0.1)
-
+# Create the scatter plot
+scatter = axs[0, 0].scatter(ema_temperature, ema_humidity, c=colors)
 axs[0, 0].set_xlabel('Temperature (°C)')
 axs[0, 0].set_ylabel('Humidity (%)')
 # Line plot of temperature vs time
