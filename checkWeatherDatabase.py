@@ -96,8 +96,10 @@ axs[1, 0].xlim = (min(ema_timestamps), max(ema_timestamps))
 axs[1, 0].ylim = (min(ema_humidity), max(ema_humidity))
 # add the three quartiles (25%, 50%, 75%) to the plot as horizontal dashed lines
 quartiles = np.percentile(ema_humidity, [25, 50, 75])
-for quartile in quartiles:
-    axs[1, 0].axhline(quartile, color='cyan', linestyle='--')
+#plot the median
+axs[1, 0].axhline(quartiles[1], color='cyan', linestyle='--')
+#plot the mean of 25% and 75%
+axs[1, 0].axhline(np.mean(quartiles[0:2]), color='cyan', linestyle='--')
 
 
 # Empty plot
