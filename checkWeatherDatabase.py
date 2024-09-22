@@ -69,7 +69,7 @@ def plot_track(verts, ax, **kw_args):
     ax.autoscale_view()
 
 # Scatter plot of temperature vs humidity
-plot_track(np.stack((ema_temperature, ema_humidity), axis=-1), axs[0, 0], color='red', width=2)
+plot_track(np.stack((ema_temperature[::10], ema_humidity[::10]), axis=-1), axs[0, 0], color='red', width=0.1)
 
 axs[0, 0].set_xlabel('Temperature (°C)')
 axs[0, 0].set_ylabel('Humidity (%)')
