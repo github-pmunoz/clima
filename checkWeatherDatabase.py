@@ -77,31 +77,20 @@ axs[0, 0].set_ylabel('Humidity (%)')
 axs[0, 0].xlim = (min(ema_temperature), max(ema_temperature))
 axs[0, 0].ylim = (min(ema_humidity), max(ema_humidity))
 
-# Crear los segmentos de línea
-points = np.array([ema_temperature, ema_humidity]).T.reshape(-1, 1, 2)
-segments = np.concatenate([points[:-1], points[1:]], axis=1)
-lc = LineCollection(segments, cmap='plasma', norm=plt.Normalize(0, 1))
-colors = colors.flatten()
-lc.set_array(colors)
-lc.set_linewidth(2)
-axs[0, 1].add_collection(lc)
+axs[0, 1].plot(ema_timestamps, ema_temperature, color='red')
 axs[0, 1].set_facecolor('0.1')
 axs[0, 1].set_xlabel('Time')
 axs[0, 1].set_ylabel('Temperature (°C)')
-axs[0, 1].set_ylim(min(ema_temperature[~np.isnan(ema_temperature)]), max(ema_temperature[~np.isnan(ema_temperature)]))
+axs[0, 1].xlim = (min(ema_timestamps), max(ema_timestamps))
+axs[0, 1].ylim = (min(ema_temperature), max(ema_temperature))
 
-# add humidity line collections
-points = np.array([ema_timestamps, ema_humidity]).T.reshape(-1, 1, 2)
-segments = np.concatenate([points[:-1], points[1:]], axis=1)
-lc = LineCollection(segments, cmap='plasma', norm=plt.Normalize(0, 1))
-colors = colors.flatten()
-lc.set_array(colors)
-lc.set_linewidth(2)
-axs[1, 0].add_collection(lc)
+axs[1, 0].plot(ema_timestamps, ema_humidity, color='blue')
 axs[1, 0].set_facecolor('0.1')
 axs[1, 0].set_xlabel('Time')
 axs[1, 0].set_ylabel('Humidity (%)')
-axs[1, 0].set_ylim(min(ema_humidity[~np.isnan(ema_humidity)]), max(ema_humidity[~np.isnan(ema_humidity)]))
+axs[1, 0].xlim = (min(ema_timestamps), max(ema_timestamps))
+axs[1, 0].ylim = (min(ema_humidity), max(ema_humidity))
+
 
 # Empty plot
 axs[1, 1].axis('off')
