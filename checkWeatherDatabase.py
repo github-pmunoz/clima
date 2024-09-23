@@ -28,6 +28,14 @@ def queryDatabase(filename, start_time):
     conn.close()
     return rows
 
+def calculateTailTangent(x, y, tail_length=10):
+    # Calculate the tangent of the tail
+    x_tail = x[:tail_length]
+    y_tail = y[:tail_length]
+    slope, intercept = np.polyfit(x_tail, y_tail, 1)
+    angle = np.arctan(slope)
+    return angle
+
 # Get the filename argument from the shell
 filename = sys.argv[1]
 
@@ -112,6 +120,17 @@ def plotResults(ax, x, y, title, xlabel, ylabel):
     for i in range(1, len(x)):
         if datetime.datetime.fromtimestamp(x[i]).day != datetime.datetime.fromtimestamp(x[i-1]).day:
             ax.text(x[i], max(y), datetime.datetime.fromtimestamp(x[i]).strftime('%m-%d'), verticalalignment='bottom', horizontalalignment='center', color='0.5')
+    
+    #add the tail tangent to the plot as a red arrow
+    tail_length = 10
+    angle = calculateTailTangent(x, y, tail_length)
+    x_tail = x[:tail_length]
+    y_tail = y[:tail_length]
+    x_tail = np.array([x_tail[0], x_tail[-1]])
+    y_tail = np.array([y_tail[0], y_tail[-1]]) 
+    ax.plot(x_tail, y_tail, color='r')
+    ax.arrow(x_tail[0], y_tail[0], 0.1*np.cos(angle), 0.1*np.sin(angle), color='r', head_width=0.1, head_length=0.1)
+    
 
 # Line plot of temperature vs time
 plotResults(axs[0, 1], ema_timestamps, ema_temperature, 'Temperature vs Time', 'Time', 'Temperature (°C)')
