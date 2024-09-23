@@ -87,33 +87,30 @@ axs[0, 0].set_xlabel('Humidity (%)')
 axs[0, 0].ylim = (min(ema_temperature), max(ema_temperature))
 axs[0, 0].xlim = (min(ema_humidity), max(ema_humidity))
 
-axs[0, 1].plot(ema_timestamps, ema_temperature, color='red')
-axs[0, 1].set_facecolor('0.1')
-axs[0, 1].set_xlabel('Time')
-axs[0, 1].set_ylabel('Temperature (°C)')
-axs[0, 1].xlim = (min(ema_timestamps), max(ema_timestamps))
-axs[0, 1].ylim = (min(ema_temperature), max(ema_temperature))
-# make the x-axis ticks more readable
-axs[0, 1].xaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: datetime.datetime.fromtimestamp(x).strftime('%Y-%m-%d %H:%M:%S')))
-axs[0, 1].xaxis.set_tick_params(rotation=45)
-#move the ticks to the left so that the end of the tick label is at meets the edge at the tick
-axs[0, 1].xaxis.set_ticks_position('bottom')
-axs[0, 1].xaxis.set_label_position('bottom')
+def plotResults(ax, x, y, title, xlabel, ylabel):
+    ax.plot(x, y)
+    ax.set_facecolor('0.1')
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+    ax.set_title(title)
+    ax.xlim = (min(x), max(x))
+    # make the x-axis ticks more readable
+    ax.xaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: datetime.datetime.fromtimestamp(x).strftime('%Y-%m-%d %H:%M:%S')))
+    ax.xaxis.set_tick_params(rotation=45)
+    #move the ticks to the left so that the end of the tick label is at meets the edge at the tick
+    ax.xaxis.set_ticks_position('bottom')
+    ax.xaxis.set_label_position('bottom')
+    #add vertical lines separing the days
+    for i in range(1, len(x)):
+        if datetime.datetime.fromtimestamp(x[i]).day != datetime.datetime.fromtimestamp(x[i-1]).day:
+            ax.axvline(x[i], color='0.5', linestyle='--')
 
-axs[1, 0].plot(ema_timestamps, ema_humidity, color='cyan')
-axs[1, 0].set_facecolor('0.1')
-axs[1, 0].set_xlabel('Time')
-axs[1, 0].set_ylabel('Humidity (%)')
-axs[1, 0].xlim = (min(ema_timestamps), max(ema_timestamps))
-axs[1, 0].ylim = (min(ema_humidity), max(ema_humidity))
-# make the x-axis ticks more readable
-axs[1, 0].xaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: datetime.datetime.fromtimestamp(x).strftime('%Y-%m-%d %H:%M:%S')))
-axs[1, 0].xaxis.set_tick_params(rotation=45)
-#move the ticks to the left so that the end of the tick label is at meets the edge at the tick
-axs[1, 0].xaxis.set_ticks_position('bottom')
-axs[1, 0].xaxis.set_label_position('bottom')
+# Line plot of temperature vs time
+plotResults(axs[0, 1], ema_timestamps, ema_temperature, 'Temperature vs Time', 'Time', 'Temperature (°C)')
+# Line plot of humidity vs time
+plotResults(axs[1, 0], ema_timestamps, ema_humidity, 'Humidity vs Time', 'Time', 'Humidity (%)')
 
-
+# Empty plot
 axs[1, 1].axis('off')
 
 # Adjust the layout
