@@ -88,15 +88,14 @@ axs[0, 0].ylim = (min(ema_temperature), max(ema_temperature))
 axs[0, 0].xlim = (min(ema_humidity), max(ema_humidity))
 
 def plotResults(ax, x, y, title, xlabel, ylabel):
-    ax.plot(x, y, linewidth=2)
+    ax.plot(x, y, width=2)
     ax.set_facecolor('0.1')
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
     ax.set_title(title)
     ax.xlim = (min(x), max(x))
     # make the x-axis ticks more readable (just use the month, date and hour)
-    ax.set_xticks(x)
-    ax.set_xticklabels([datetime.datetime.fromtimestamp(i).strftime('%m-%d %H:%M') for i in x])
+    ax.xaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: datetime.datetime.fromtimestamp(x).strftime('%m-%d %H:%M')))
     ax.xaxis.set_tick_params(rotation=90)
     #move the ticks to the left so that the end of the tick label is at meets the edge at the tick
     ax.xaxis.set_ticks_position('bottom')
