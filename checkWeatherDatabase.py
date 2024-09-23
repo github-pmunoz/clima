@@ -130,8 +130,9 @@ def plotResults(ax, x, y, title, xlabel, ylabel):
     y_arrow = y_tail[-1]
     dx = 0.1 * np.cos(angle)
     dy = 0.1 * np.sin(angle)
-    arrow = Arrow(x_arrow, y_arrow, dx, dy, width=0.1, color='r')
+    arrow = Arrow(x_arrow, y_arrow, dx, dy, width=5, color='r')  # Increase the width of the arrow
     ax.add_patch(arrow)
+    
     
 
 # Line plot of temperature vs time
