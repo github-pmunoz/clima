@@ -151,7 +151,11 @@ for i in range(1, len(derivative_timestamps)):
 for i in range(1, len(derivative_timestamps)):
     if datetime.datetime.fromtimestamp(derivative_timestamps[i]).day != datetime.datetime.fromtimestamp(derivative_timestamps[i-1]).day:
         axs[1, 1].text(derivative_timestamps[i], max(derivative), datetime.datetime.fromtimestamp(derivative_timestamps[i]).strftime('%m-%d'), verticalalignment='bottom', horizontalalignment='center', color='0.5')
-
+#draw a dashed line at y=0
+axs[1, 1].axhline(0, color='0.5', linestyle='--')
+#fill the area above and below the line with different colors (red for top and cyan for bottom)
+axs[1, 1].fill_between(derivative_timestamps, derivative, 0, where=derivative>0, color='red', alpha=0.5)
+axs[1, 1].fill_between(derivative_timestamps, derivative, 0, where=derivative<0, color='cyan', alpha=0.5)
 
 
 # Adjust the layout
