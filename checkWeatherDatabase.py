@@ -106,7 +106,7 @@ fig.suptitle('Temperature and Humidity Data')
 # Line plot of temperature vs time
 plotResults(axs[0, 0], ema_timestamps, ema_temperature, 'Temperature vs Time', 'Time', 'Temperature (°C)')
 # Line plot of humidity vs time
-plotResults(axs[1, 0], ema_timestamps, ema_humidity, 'Humidity vs Time', 'Time', 'Humidity (%)')
+plotResults(axs[0, 1], ema_timestamps, ema_humidity, 'Humidity vs Time', 'Time', 'Humidity (%)')
 
 # In 1,1 plot the derivative of the ema_temperature vs time
 # Calculate the derivative of the temperature
@@ -116,26 +116,26 @@ derivative = np.convolve(derivative, np.ones(gradient_window)/gradient_window, m
 derivative_timestamps = np.convolve(ema_timestamps, np.ones(gradient_window)/gradient_window, mode='valid')
 
 # Plot the derivative
-axs[1, 1].plot(derivative_timestamps, derivative, linewidth=2)
-axs[1, 1].set_facecolor('0.1')
-axs[1, 1].set_xlabel('Time')
-axs[1, 1].set_ylabel('Derivative of Temperature')
-axs[1, 1].set_title('Derivative of Temperature vs Time')
-axs[1, 1].xlim = (min(derivative_timestamps), max(derivative_timestamps))
+axs[1, 0].plot(derivative_timestamps, derivative, linewidth=2)
+axs[1, 0].set_facecolor('0.1')
+axs[1, 0].set_xlabel('Time')
+axs[1, 0].set_ylabel('Derivative of Temperature')
+axs[1, 0].set_title('Derivative of Temperature vs Time')
+axs[1, 0].set_xlim(min(derivative_timestamps), max(derivative_timestamps))
 # make the x-axis ticks more readable (just use the month, date and hour)
 # just use regular hours for the x-axis (00:00, 04:00, 08:00, 12:00, 16:00, 20:00)
-axs[1, 1].xaxis.set_major_locator(plt.MultipleLocator(4*60*60))
-axs[1, 1].xaxis.set_major_formatter(plt.FuncFormatter(lambda value, tick_number: datetime.datetime.fromtimestamp(value).strftime('%m-%d %H:%M')))
+axs[1, 0].xaxis.set_major_locator(plt.MultipleLocator(4*60*60))
+axs[1, 0].xaxis.set_major_formatter(plt.FuncFormatter(lambda value, tick_number: datetime.datetime.fromtimestamp(value).strftime('%m-%d %H:%M')))
 #rotate the x-axis labels to make them more readable
-axs[1, 1].xaxis.set_tick_params(rotation=90)
+axs[1, 0].xaxis.set_tick_params(rotation=90)
 #move the ticks to the left so that the end of the tick label is at meets the edge at the tick
-axs[1, 1].xaxis.set_ticks_position('bottom')
-axs[1, 1].xaxis.set_label_position('bottom')
+axs[1, 0].xaxis.set_ticks_position('bottom')
+axs[1, 0].xaxis.set_label_position('bottom')
 #draw a dashed line at y=0
-axs[1, 1].axhline(0, color='0.5', linestyle='--')
+axs[1, 0].axhline(0, color='0.5', linestyle='--')
 #fill the area above and below the line with different colors (red for top and cyan for bottom)
-axs[1, 1].fill_between(derivative_timestamps, derivative, 0, where=derivative>0, color='red', alpha=0.5)
-axs[1, 1].fill_between(derivative_timestamps, derivative, 0, where=derivative<0, color='cyan', alpha=0.5)
+axs[1, 0].fill_between(derivative_timestamps, derivative, 0, where=derivative>0, color='red', alpha=0.5)
+axs[1, 0].fill_between(derivative_timestamps, derivative, 0, where=derivative<0, color='cyan', alpha=0.5)
 #add vertical dashed-dotted lines when the derivative changes sign
 #after a change of sign, the next one needs to be at least 1 hour later
 for i in range(1, len(derivative)):
@@ -153,26 +153,26 @@ derivative = np.convolve(derivative, np.ones(gradient_window)/gradient_window, m
 derivative_timestamps = np.convolve(ema_timestamps, np.ones(gradient_window)/gradient_window, mode='valid')
 
 # Plot the derivative
-axs[1,0].plot(derivative_timestamps, derivative, linewidth=2)
-axs[1,0].set_facecolor('0.1')
-axs[1,0].set_xlabel('Time')
-axs[1,0].set_ylabel('Derivative of Humidity')
-axs[1,0].set_title('Derivative of Humidity vs Time')
-axs[1,0].xlim = (min(derivative_timestamps), max(derivative_timestamps))
+axs[1,1].plot(derivative_timestamps, derivative, linewidth=2)
+axs[1,1].set_facecolor('0.1')
+axs[1,1].set_xlabel('Time')
+axs[1,1].set_ylabel('Derivative of Humidity')
+axs[1,1].set_title('Derivative of Humidity vs Time')
+axs[1,1].xlim = (min(derivative_timestamps), max(derivative_timestamps))
 # make the x-axis ticks more readable (just use the month, date and hour)
 # just use regular hours for the x-axis (00:00, 04:00, 08:00, 12:00, 16:00, 20:00)
-axs[1,0].xaxis.set_major_locator(plt.MultipleLocator(4*60*60))
-axs[1,0].xaxis.set_major_formatter(plt.FuncFormatter(lambda value, tick_number: datetime.datetime.fromtimestamp(value).strftime('%m-%d %H:%M')))
+axs[1,1].xaxis.set_major_locator(plt.MultipleLocator(4*60*60))
+axs[1,1].xaxis.set_major_formatter(plt.FuncFormatter(lambda value, tick_number: datetime.datetime.fromtimestamp(value).strftime('%m-%d %H:%M')))
 #rotate the x-axis labels to make them more readable
-axs[1,0].xaxis.set_tick_params(rotation=90)
+axs[1,1].xaxis.set_tick_params(rotation=90)
 #move the ticks to the left so that the end of the tick label is at meets the edge at the tick
-axs[1,0].xaxis.set_ticks_position('bottom')
-axs[1,0].xaxis.set_label_position('bottom')
+axs[1,1].xaxis.set_ticks_position('bottom')
+axs[1,1].xaxis.set_label_position('bottom')
 #draw a dashed line at y=0
-axs[1,0].axhline(0, color='0.5', linestyle='--')
+axs[1,1].axhline(0, color='0.5', linestyle='--')
 #fill the area above and below the line with different colors (red for top and cyan for bottom)
-axs[1,0].fill_between(derivative_timestamps, derivative, 0, where=derivative>0, color='lightblue', alpha=0.5)
-axs[1,0].fill_between(derivative_timestamps, derivative, 0, where=derivative<0, color='yellow', alpha=0.5)
+axs[1,1].fill_between(derivative_timestamps, derivative, 0, where=derivative>0, color='royalblue', alpha=0.5)
+axs[1,1].fill_between(derivative_timestamps, derivative, 0, where=derivative<0, color='goldenrod', alpha=0.5)
 #add vertical dashed-dotted lines when the derivative changes sign
 #after a change of sign, the next one needs to be at least 1 hour later
 for i in range(1, len(derivative)):
