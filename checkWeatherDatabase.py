@@ -33,7 +33,7 @@ def plotResults(ax, x, y, title, xlabel, ylabel):
             ax.text(x[i], max(y), datetime.datetime.fromtimestamp(x[i]).strftime('%m-%d'), verticalalignment='bottom', horizontalalignment='center', color='0.5')
 
 
-def sigmaClipping(data, threshold=5):
+def sigmaClipping(data, threshold=3):
     mean = np.mean(data)
     std = np.std(data)
     data = np.array([value if abs(value - mean) < threshold * std else np.nan for value in data])
@@ -147,7 +147,7 @@ for i in range(1, len(derivative)):
 
 # In 2,1 plot the derivative of the ema_humidity vs time
 # Calculate the derivative of the humidity
-gradient_window = 90
+gradient_window = 360
 derivative = np.gradient(ema_humidity, ema_timestamps)
 derivative = np.convolve(derivative, np.ones(gradient_window)/gradient_window, mode='valid')
 derivative_timestamps = np.convolve(ema_timestamps, np.ones(gradient_window)/gradient_window, mode='valid')
