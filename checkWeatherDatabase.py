@@ -122,7 +122,7 @@ plotResults(axs[1, 0], ema_timestamps, ema_humidity, 'Humidity vs Time', 'Time',
 
 # In 1,1 plot the derivative of the ema_temperature vs time
 # Calculate the derivative of the temperature
-gradient_window = 100
+gradient_window = 200
 derivative = np.gradient(ema_temperature, ema_timestamps)
 derivative = np.convolve(derivative, np.ones(gradient_window)/gradient_window, mode='valid')
 derivative_timestamps = np.convolve(ema_timestamps, np.ones(gradient_window)/gradient_window, mode='valid')
@@ -131,6 +131,26 @@ derivative_timestamps = np.convolve(ema_timestamps, np.ones(gradient_window)/gra
 axs[1, 1].plot(derivative_timestamps, derivative, linewidth=2)
 axs[1, 1].set_facecolor('0.1')
 axs[1, 1].set_xlabel('Time')
+axs[1, 1].set_ylabel('Derivative of Temperature')
+axs[1, 1].set_title('Derivative of Temperature vs Time')
+axs[1, 1].xlim = (min(derivative_timestamps), max(derivative_timestamps))
+# make the x-axis ticks more readable (just use the month, date and hour)
+# just use regular hours for the x-axis (00:00, 04:00, 08:00, 12:00, 16:00, 20:00)
+axs[1, 1].xaxis.set_major_locator(plt.MultipleLocator(4*60*60))
+axs[1, 1].xaxis.set_major_formatter(plt.FuncFormatter(lambda value, tick_number: datetime.datetime.fromtimestamp(value).strftime('%m-%d %H:%M')))
+#rotate the x-axis labels to make them more readable
+axs[1, 1].xaxis.set_tick_params(rotation=90)
+#move the ticks to the left so that the end of the tick label is at meets the edge at the tick
+axs[1, 1].xaxis.set_ticks_position('bottom')
+axs[1, 1].xaxis.set_label_position('bottom')
+#add vertical lines separing the days
+for i in range(1, len(derivative_timestamps)):
+    if datetime.datetime.fromtimestamp(derivative_timestamps[i]).day != datetime.datetime.fromtimestamp(derivative_timestamps[i-1]).day:
+        axs[1, 1].axvline(derivative_timestamps[i], color='0.5', linestyle='--')
+#add the date on top of the vetical line
+for i in range(1, len(derivative_timestamps)):
+    if datetime.datetime.fromtimestamp(derivative_timestamps[i]).day != datetime.datetime.fromtimestamp(derivative_timestamps[i-1]).day:
+        axs[1, 1].text(derivative_timestamps[i], max(derivative), datetime.datetime.fromtimestamp(derivative_timestamps[i]).strftime('%m-%d'), verticalalignment='bottom', horizontalalignment='center', color='0.5')
 
 
 
