@@ -124,12 +124,14 @@ def plotResults(ax, x, y, title, xlabel, ylabel):
     #add the tail tangent to the plot as a red arrow
     tail_length = 10
     angle = calculateTailTangent(x, y, tail_length)
-    x_tail = x[:tail_length]
-    y_tail = y[:tail_length]
-    x_tail = np.array([x_tail[0], x_tail[-1]])
-    y_tail = np.array([y_tail[0], y_tail[-1]]) 
-    ax.plot(x_tail, y_tail, color='r')
-    ax.arrow(x_tail[0], y_tail[0], 0.1*np.cos(angle), 0.1*np.sin(angle), color='r', head_width=0.1, head_length=0.1)
+    x_tail = x[-tail_length:]
+    y_tail = y[-tail_length:]
+    x_arrow = x_tail[-1]
+    y_arrow = y_tail[-1]
+    dx = 0.1 * np.cos(angle)
+    dy = 0.1 * np.sin(angle)
+    arrow = Arrow(x_arrow, y_arrow, dx, dy, width=0.1, color='r')
+    ax.add_patch(arrow)
     
 
 # Line plot of temperature vs time
