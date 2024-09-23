@@ -162,7 +162,7 @@ axs[1, 1].fill_between(derivative_timestamps, derivative, 0, where=derivative<0,
 #add vertical dashed-dotted lines when the derivative changes sign
 #after a change of sign, the next one needs to be at least 1 hour later
 for i in range(1, len(derivative)):
-    if derivative[i] * derivative[i-1] < 0 and derivative_timestamps[i] - derivative_timestamps[i-1] > 90:
+    if derivative[i] * derivative[i-1] < 0 and derivative_timestamps[i] - derivative_timestamps[i-1] > 70:
         axs[1, 1].axvline(derivative_timestamps[i], color='0.5', linestyle='-.')
         axs[1, 1].text(derivative_timestamps[i], max(derivative), datetime.datetime.fromtimestamp(derivative_timestamps[i]).strftime('%H-%M'), verticalalignment='bottom', horizontalalignment='center', color='0.5')
 
