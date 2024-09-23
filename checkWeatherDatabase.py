@@ -128,9 +128,9 @@ def plotResults(ax, x, y, title, xlabel, ylabel):
     y_tail = y[-tail_length:]
     x_arrow = x_tail[-1]
     y_arrow = y_tail[-1]
-    dx = 10 * np.cos(angle)
-    dy = 10 * np.sin(angle)
-    arrow = Arrow(x_arrow, y_arrow, dx, dy, width=5, color='r')  # Increase the width of the arrow
+    dx = 100 * np.cos(angle)
+    dy = 100 * np.sin(angle)
+    arrow = Arrow(x_arrow, y_arrow, dx, dy, width=2.5, color='r')  # Increase the width of the arrow
     ax.add_patch(arrow)
     
     
