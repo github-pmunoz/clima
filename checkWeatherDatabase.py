@@ -68,6 +68,9 @@ ema_timestamps = np.convolve(timestamps, np.ones(moving_average_window)/moving_a
 # (1, 2) is line plot of temperature vs time
 # (2, 1) is line plot of humidity vs time
 # (2, 2) is empty
+
+# use a large screen size
+plt.figure(figsize=(20, 10))
 fig, axs = plt.subplots(2, 2)
 fig.suptitle('Temperature and Humidity Data')
 
