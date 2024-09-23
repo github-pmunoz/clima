@@ -147,7 +147,7 @@ for i in range(1, len(derivative)):
 
 # In 2,1 plot the derivative of the ema_humidity vs time
 # Calculate the derivative of the humidity
-gradient_window = 30
+gradient_window = 45
 derivative = np.gradient(ema_humidity, ema_timestamps)
 derivative = np.convolve(derivative, np.ones(gradient_window)/gradient_window, mode='valid')
 derivative_timestamps = np.convolve(ema_timestamps, np.ones(gradient_window)/gradient_window, mode='valid')
