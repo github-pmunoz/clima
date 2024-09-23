@@ -39,7 +39,7 @@ else:
 
 # Query the database for measurements in the last 'days' days
 # always start after 09-21-2024
-start_time = max(1716307200, int(datetime.datetime.now().timestamp()) - days * 24 * 60 * 60)
+start_time = max(int(datetime.datetime(2024, 9, 21, 0, 0, 0).timestamp()), int(datetime.datetime.now().timestamp()) - days * 24 * 60 * 60)
 rows = queryDatabase(filename, start_time)
 
 # Extract the temperature and humidity values
