@@ -168,7 +168,7 @@ for i in range(1, len(derivative)):
 #add the date on top of the vetical line
 for i in range(1, len(derivative_timestamps)):
     if datetime.datetime.fromtimestamp(derivative_timestamps[i]).day != datetime.datetime.fromtimestamp(derivative_timestamps[i-1]).day:
-        axs[1, 1].text(derivative_timestamps[i], max(derivative), datetime.datetime.fromtimestamp(derivative_timestamps[i]).strftime('%m-%d'), verticalalignment='bottom', horizontalalignment='center', color='0.5')
+        axs[1, 1].text(derivative_timestamps[i], max(derivative), datetime.datetime.fromtimestamp(derivative_timestamps[i]).strftime('%H-%M'), verticalalignment='bottom', horizontalalignment='center', color='0.5')
 
 
 # Adjust the layout
