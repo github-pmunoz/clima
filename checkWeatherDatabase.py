@@ -88,7 +88,7 @@ axs[0, 0].ylim = (min(ema_temperature), max(ema_temperature))
 axs[0, 0].xlim = (min(ema_humidity), max(ema_humidity))
 
 def plotResults(ax, x, y, title, xlabel, ylabel):
-    ax.plot(x, y)
+    ax.plot(x, y, width=2)
     ax.set_facecolor('0.1')
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
