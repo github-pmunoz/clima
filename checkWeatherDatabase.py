@@ -171,8 +171,8 @@ axs[1,0].xaxis.set_label_position('bottom')
 #draw a dashed line at y=0
 axs[1,0].axhline(0, color='0.5', linestyle='--')
 #fill the area above and below the line with different colors (red for top and cyan for bottom)
-axs[1,0].fill_between(derivative_timestamps, derivative, 0, where=derivative>0, color='red', alpha=0.5)
-axs[1,0].fill_between(derivative_timestamps, derivative, 0, where=derivative<0, color='cyan', alpha=0.5)
+axs[1,0].fill_between(derivative_timestamps, derivative, 0, where=derivative>0, color='lightblue', alpha=0.5)
+axs[1,0].fill_between(derivative_timestamps, derivative, 0, where=derivative<0, color='sand', alpha=0.5)
 #add vertical dashed-dotted lines when the derivative changes sign
 #after a change of sign, the next one needs to be at least 1 hour later
 for i in range(1, len(derivative)):
