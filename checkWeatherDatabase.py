@@ -28,14 +28,6 @@ def queryDatabase(filename, start_time):
     conn.close()
     return rows
 
-def calculateTailTangent(x, y, tail_length=10):
-    # Calculate the tangent of the tail
-    x_tail = x[:tail_length]
-    y_tail = y[:tail_length]
-    slope, intercept = np.polyfit(x_tail, y_tail, 1)
-    angle = np.arctan(slope)
-    return angle
-
 # Get the filename argument from the shell
 filename = sys.argv[1]
 
@@ -121,18 +113,6 @@ def plotResults(ax, x, y, title, xlabel, ylabel):
         if datetime.datetime.fromtimestamp(x[i]).day != datetime.datetime.fromtimestamp(x[i-1]).day:
             ax.text(x[i], max(y), datetime.datetime.fromtimestamp(x[i]).strftime('%m-%d'), verticalalignment='bottom', horizontalalignment='center', color='0.5')
     
-    #add the tail tangent to the plot as a red arrow
-    tail_length = 10
-    angle = calculateTailTangent(x, y, tail_length)
-    x_tail = x[-tail_length:]
-    y_tail = y[-tail_length:]
-    x_arrow = x_tail[-1]
-    y_arrow = y_tail[-1]
-    dx = 100 * np.cos(angle)
-    dy = 100 * np.sin(angle)
-    arrow = Arrow(x_arrow, y_arrow, dx, dy, width=2.5, color='r')  # Increase the width of the arrow
-    ax.add_patch(arrow)
-    
     
 
 # Line plot of temperature vs time
@@ -140,8 +120,15 @@ plotResults(axs[0, 1], ema_timestamps, ema_temperature, 'Temperature vs Time', '
 # Line plot of humidity vs time
 plotResults(axs[1, 0], ema_timestamps, ema_humidity, 'Humidity vs Time', 'Time', 'Humidity (%)')
 
-# Empty plot
-axs[1, 1].axis('off')
+# In 1,1 plot the derivative of the ema_temperature vs time
+# Calculate the derivative of the temperature
+derivative = np.gradient(ema_temperature, ema_timestamps)
+# Plot the derivative
+axs[1, 1].plot(ema_timestamps, derivative, linewidth=2)
+axs[1, 1].set_facecolor('0.1')
+axs[1, 1].set_xlabel('Time')
+
+
 
 # Adjust the layout
 plt.tight_layout()
