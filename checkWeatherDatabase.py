@@ -94,6 +94,9 @@ axs[0, 1].ylim = (min(ema_temperature), max(ema_temperature))
 # make the x-axis ticks more readable
 axs[0, 1].xaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: datetime.datetime.fromtimestamp(x).strftime('%Y-%m-%d %H:%M:%S')))
 axs[0, 1].xaxis.set_tick_params(rotation=45)
+#move the ticks to the left so that the end of the tick label is at meets the edge at the tick
+axs[0, 1].xaxis.set_ticks_position('bottom')
+axs[0, 1].xaxis.set_label_position('bottom')
 
 axs[1, 0].plot(ema_timestamps, ema_humidity, color='cyan')
 axs[1, 0].set_facecolor('0.1')
@@ -104,6 +107,10 @@ axs[1, 0].ylim = (min(ema_humidity), max(ema_humidity))
 # make the x-axis ticks more readable
 axs[1, 0].xaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: datetime.datetime.fromtimestamp(x).strftime('%Y-%m-%d %H:%M:%S')))
 axs[1, 0].xaxis.set_tick_params(rotation=45)
+#move the ticks to the left so that the end of the tick label is at meets the edge at the tick
+axs[1, 0].xaxis.set_ticks_position('bottom')
+axs[1, 0].xaxis.set_label_position('bottom')
+
 
 axs[1, 1].axis('off')
 
