@@ -147,7 +147,7 @@ for i in range(1, len(derivative)):
 
 # In 2,1 plot the derivative of the ema_humidity vs time
 # Calculate the derivative of the humidity
-gradient_window = 60
+gradient_window = 90
 derivative = np.gradient(ema_humidity, ema_timestamps)
 derivative = np.convolve(derivative, np.ones(gradient_window)/gradient_window, mode='valid')
 derivative_timestamps = np.convolve(ema_timestamps, np.ones(gradient_window)/gradient_window, mode='valid')
@@ -175,8 +175,8 @@ axs[1,1].fill_between(derivative_timestamps, derivative, 0, where=derivative>0, 
 axs[1,1].fill_between(derivative_timestamps, derivative, 0, where=derivative<0, color='goldenrod', alpha=0.5)
 #add vertical dashed-dotted lines when the derivative changes sign
 #after a change of sign, the next one needs to be at least 1 hour later
+last_sign_change = 0
 for i in range(1, len(derivative)):
-    last_sign_change = 0
     if derivative[i] * derivative[i-1] < 0 and derivative_timestamps[i] - last_sign_change > 60*60*4:
         axs[1,1].axvline(derivative_timestamps[i], color='0.5', linestyle='-.')
         axs[1,1].text(derivative_timestamps[i], max(derivative), datetime.datetime.fromtimestamp(derivative_timestamps[i]).strftime('%H-%M'), verticalalignment='bottom', horizontalalignment='center', color='0.5')
