@@ -96,7 +96,7 @@ def plotResults(ax, x, y, title, xlabel, ylabel):
     ax.xlim = (min(x), max(x))
     # make the x-axis ticks more readable
     ax.xaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: datetime.datetime.fromtimestamp(x).strftime('%Y-%m-%d %H:%M:%S')))
-    ax.xaxis.set_tick_params(rotation=45)
+    ax.xaxis.set_tick_params(rotation=90)
     #move the ticks to the left so that the end of the tick label is at meets the edge at the tick
     ax.xaxis.set_ticks_position('bottom')
     ax.xaxis.set_label_position('bottom')
