@@ -42,6 +42,9 @@ else:
 start_time = max(int(datetime.datetime(2024, 9, 21, 0, 0, 0).timestamp()), int(datetime.datetime.now().timestamp()) - days * 24 * 60 * 60)
 rows = queryDatabase(filename, start_time)
 
+# convert the timestamps to chilean time
+rows = [(row[0] - 3*60*60, row[1], row[2]) for row in rows]
+
 # Extract the temperature and humidity values
 timestamps = []
 temperatures = []
