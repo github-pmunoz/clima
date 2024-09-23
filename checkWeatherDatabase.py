@@ -146,10 +146,6 @@ axs[1, 1].xaxis.set_tick_params(rotation=90)
 #move the ticks to the left so that the end of the tick label is at meets the edge at the tick
 axs[1, 1].xaxis.set_ticks_position('bottom')
 axs[1, 1].xaxis.set_label_position('bottom')
-#add the date on top of the vetical line
-for i in range(1, len(derivative_timestamps)):
-    if datetime.datetime.fromtimestamp(derivative_timestamps[i]).day != datetime.datetime.fromtimestamp(derivative_timestamps[i-1]).day:
-        axs[1, 1].text(derivative_timestamps[i], max(derivative), datetime.datetime.fromtimestamp(derivative_timestamps[i]).strftime('%m-%d'), verticalalignment='bottom', horizontalalignment='center', color='0.5')
 #draw a dashed line at y=0
 axs[1, 1].axhline(0, color='0.5', linestyle='--')
 #fill the area above and below the line with different colors (red for top and cyan for bottom)
