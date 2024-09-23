@@ -7,7 +7,7 @@ from matplotlib.patches import PathPatch, Path, Arrow
 from matplotlib.collections import LineCollection
 from scipy.interpolate import interp1d
 
-def sigmaClipping(data, threshold=4):
+def sigmaClipping(data, threshold=3):
     mean = np.mean(data)
     std = np.std(data)
     data = np.array([value if abs(value - mean) < threshold * std else np.nan for value in data])
