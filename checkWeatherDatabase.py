@@ -124,9 +124,10 @@ plotResults(axs[1, 0], ema_timestamps, ema_humidity, 'Humidity vs Time', 'Time',
 # Calculate the derivative of the temperature
 derivative = np.gradient(ema_temperature, ema_timestamps)
 derivative = np.convolve(derivative, np.ones(moving_average_window)/moving_average_window, mode='valid')
+fix_timestamps = np.convolve(ema_timestamps, np.ones(moving_average_window)/moving_average_window, mode='valid')
 
 # Plot the derivative
-axs[1, 1].plot(ema_timestamps, derivative, linewidth=2)
+axs[1, 1].plot(fix_timestamps, derivative, linewidth=2)
 axs[1, 1].set_facecolor('0.1')
 axs[1, 1].set_xlabel('Time')
 
