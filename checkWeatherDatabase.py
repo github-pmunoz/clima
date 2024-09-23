@@ -93,7 +93,7 @@ axs[0, 1].xlim = (min(ema_timestamps), max(ema_timestamps))
 axs[0, 1].ylim = (min(ema_temperature), max(ema_temperature))
 # make the x-axis ticks more readable
 axs[0, 1].xaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: datetime.datetime.fromtimestamp(x).strftime('%Y-%m-%d %H:%M:%S')))
-plt.xticks(rotation=45)
+axs[0, 1].xaxis.set_tick_params(rotation=45)
 
 axs[1, 0].plot(ema_timestamps, ema_humidity, color='cyan')
 axs[1, 0].set_facecolor('0.1')
@@ -103,7 +103,7 @@ axs[1, 0].xlim = (min(ema_timestamps), max(ema_timestamps))
 axs[1, 0].ylim = (min(ema_humidity), max(ema_humidity))
 # make the x-axis ticks more readable
 axs[1, 0].xaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: datetime.datetime.fromtimestamp(x).strftime('%Y-%m-%d %H:%M:%S')))
-plt.xticks(rotation=45)
+axs[1, 0].xaxis.set_tick_params(rotation=45)
 
 axs[1, 1].axis('off')
 
