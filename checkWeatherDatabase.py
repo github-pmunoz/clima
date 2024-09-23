@@ -95,7 +95,10 @@ def plotResults(ax, x, y, title, xlabel, ylabel):
     ax.set_title(title)
     ax.xlim = (min(x), max(x))
     # make the x-axis ticks more readable (just use the month, date and hour)
-    ax.xaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: datetime.datetime.fromtimestamp(x).strftime('%m-%d %H:%M')))
+    # just use regular hours for the x-axis (00:00, 04:00, 08:00, 12:00, 16:00, 20:00)
+    ax.xaxis.set_major_locator(plt.MultipleLocator(4*60*60))
+    ax.xaxis.set_major_formatter(plt.FuncFormatter(lambda value, tick_number: datetime.datetime.fromtimestamp(value).strftime('%m-%d %H:%M')))
+    #rotate the x-axis labels to make them more readable
     ax.xaxis.set_tick_params(rotation=90)
     #move the ticks to the left so that the end of the tick label is at meets the edge at the tick
     ax.xaxis.set_ticks_position('bottom')
