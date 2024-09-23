@@ -107,6 +107,10 @@ def plotResults(ax, x, y, title, xlabel, ylabel):
     for i in range(1, len(x)):
         if datetime.datetime.fromtimestamp(x[i]).day != datetime.datetime.fromtimestamp(x[i-1]).day:
             ax.axvline(x[i], color='0.5', linestyle='--')
+    #add the date on top of the vetical line
+    for i in range(1, len(x)):
+        if datetime.datetime.fromtimestamp(x[i]).day != datetime.datetime.fromtimestamp(x[i-1]).day:
+            ax.text(x[i], max(y), datetime.datetime.fromtimestamp(x[i]).strftime('%m-%d'), verticalalignment='bottom', horizontalalignment='center', color='0.5')
 
 # Line plot of temperature vs time
 plotResults(axs[0, 1], ema_timestamps, ema_temperature, 'Temperature vs Time', 'Time', 'Temperature (°C)')
