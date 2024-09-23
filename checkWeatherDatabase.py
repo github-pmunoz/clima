@@ -159,7 +159,7 @@ axs[1, 1].fill_between(derivative_timestamps, derivative, 0, where=derivative<0,
 #after a change of sign, the next one needs to be at least 1 hour later
 for i in range(1, len(derivative)):
     last_sign_change = 0
-    if derivative[i] * derivative[i-1] < 0 and derivative_timestamps[i] - last_sign_change > 60*60(2):
+    if derivative[i] * derivative[i-1] < 0 and derivative_timestamps[i] - last_sign_change > 60*60*2:
         axs[1, 1].axvline(derivative_timestamps[i], color='0.5', linestyle='-.')
         axs[1, 1].text(derivative_timestamps[i], max(derivative), datetime.datetime.fromtimestamp(derivative_timestamps[i]).strftime('%H-%M'), verticalalignment='bottom', horizontalalignment='center', color='0.5')
         last_sign_change = derivative_timestamps[i]
