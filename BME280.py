@@ -57,10 +57,34 @@ def main():
         # Clear the previous plot
         ax.clear()
 
-        # Plot the data
-        ax.plot(times, temperatures, label='Temperature')
-        ax.plot(times, humidities, label='Humidity')
-        ax.plot(times, pressures, label='Pressure')
+        # Create subplots for temperature, humidity, and pressure
+        ax1 = plt.subplot(3, 1, 1)
+        ax2 = plt.subplot(3, 1, 2)
+        ax3 = plt.subplot(3, 1, 3)
+
+        # Plot the data on respective subplots
+        ax1.plot(times, temperatures, label='Temperature')
+        ax2.plot(times, humidities, label='Humidity')
+        ax3.plot(times, pressures, label='Pressure')
+
+        # Set labels and titles for each subplot
+        ax1.set_xlabel('Time')
+        ax1.set_ylabel('Temperature')
+        ax1.set_title('Temperature')
+        ax2.set_xlabel('Time')
+        ax2.set_ylabel('Humidity')
+        ax2.set_title('Humidity')
+        ax3.set_xlabel('Time')
+        ax3.set_ylabel('Pressure')
+        ax3.set_title('Pressure')
+
+        # Add legend and grid to each subplot
+        ax1.legend()
+        ax1.grid(True)
+        ax2.legend()
+        ax2.grid(True)
+        ax3.legend()
+        ax3.grid(True)
 
         # Add legend and grid
         ax.legend()
