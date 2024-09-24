@@ -50,6 +50,7 @@ while True:
             res = sensor.read()
             if len(res) == 2:
                 res.append(None)
+            print(f"{sensor_name}: {res}")
             store_measurement(timestamp, *res, sensor_name)
     except Exception as e:
         print(f"An error occurred: {e}")
