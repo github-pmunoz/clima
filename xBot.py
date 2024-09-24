@@ -1,7 +1,3 @@
-import tweepy
-import requests
-import datetime
-
 # Twitter API credentials
 consumer_key = "pIXd6jzVXnsVvIzDSkRn7EJhZ"
 consumer_secret = "4fBrwRdUasmgePgBWAN4VEXxNQ3DDxKZL77vLSnZ6MWm2msxfR"
@@ -9,55 +5,41 @@ bearer_token = "AAAAAAAAAAAAAAAAAAAAAPSgugEAAAAAKHh0URHPxbIaq4suuZrBiiW8OhM%3Dtt
 access_token = "1760515708310421504-AbYnEHUA0dh50h91d1lq50t2z9LHQl"
 access_token_secret = "V2BpDFSvi7VR5gmxQVufimJwmocIwzJCdj2v55ft5wbXB"
 
-# Google API key
-api_key = "AIzaSyB_GgCeXB0x40ILKRR2pk0_3_7dlLXHHuA"
+from requests_oauthlib import OAuth1Session
+import os
+import json
 
-# Function to get weather data
-def get_weather_data():
-    # Mock weather data for testing
-    mock_data = {
-        'main': {
-            'temp': 25,
-            'humidity': 70
-        },
-        'weather': [
-            {
-                'description': 'Sunny'
-            }
-        ]
-    }
-    return mock_data
+# Be sure to add replace the text of the with the text you wish to Tweet. You can also add parameters to post polls, quote Tweets, Tweet with reply settings, and Tweet to Super Followers in addition to other features.
+payload = {"text": "Hello world!"}
 
-# Function to format weather data
-def format_weather_data(data):
-    # Extract relevant weather information from the data
-    temperature = data['main']['temp']
-    humidity = data['main']['humidity']
-    description = data['weather'][0]['description']
+# Get request token
+request_token_url = "https://api.twitter.com/oauth/request_token?oauth_callback=oob&x_auth_access_type=write"
+oauth = OAuth1Session(consumer_key, client_secret=consumer_secret)
 
-    # Format the weather summary
-    summary = f"Today's weather: {description}. Temperature: {temperature}°C. Humidity: {humidity}%."
-    return summary
+try:
+    fetch_response = oauth.fetch_request_token(request_token_url)
+except ValueError:
+    print(
+        "There may have been an issue with the consumer_key or consumer_secret you entered."
+    )
+# Make the request
+url = "https://api.twitter.com/1.1/statuses/update.json"
+oauth = OAuth1Session(
+    consumer_key,
+    client_secret=consumer_secret,
+    resource_owner_key=access_token,
+    resource_owner_secret=access_token_secret,
+)
 
-# Function to post weather summary on Twitter
-def post_weather_summary(summary):
-    # Authenticate with Twitter API
-    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-    auth.set_access_token(access_token, access_token_secret)
-    api = tweepy.API(auth)
+response = oauth.post(url, params=payload)
 
-    # Post the weather summary as a tweet
-    api.update_status(summary)
+# Print data from the response
+print(response.text)
 
-# Get current date and time
-current_date = datetime.datetime.now().strftime("%Y-%m-%d")
+# Check for errors
 
-# Get weather data for your city
-city_name = "YOUR_CITY_NAME"
-weather_data = get_weather_data()
+if response.status_code == 200:
+    print("Success!")
+else:
 
-# Format the weather data
-weather_summary = format_weather_data(weather_data)
-
-# Post the weather summary on Twitter
-post_weather_summary(weather_summary)
+    print("An error occurred: %s" % response.text)
