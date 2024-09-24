@@ -39,45 +39,50 @@ def main():
     fig, ax = plt.subplots()
 
     # Set up the plot on different subplots for each variable and each pair of variables in a 3x3 grid
-    # Avoid the repetition of the same plot (only do upper-left triangle)
-    for i, var1 in enumerate(['temperature', 'humidity', 'pressure']):
-        for j, var2 in enumerate(['temperature', 'humidity', 'pressure']):
-            if i >= j:
-                continue
-            ax = plt.subplot(3, 3, 3 * i + j + 1)
-            ax.set_xlabel(var1)
-            ax.set_ylabel(var2)
+    ax1 = plt.subplot(3, 1, 1)
+    ax2 = plt.subplot(3, 1, 2)
+    ax3 = plt.subplot(3, 1, 3)
 
-    # Main loop
+    # Set the title and labels for the plot
+    ax1.set_title('Temperature')
+    ax1.set_xlabel('Time (s)')
+    ax1.set_ylabel('Temperature (°C)')
+    ax2.set_title('Humidity')
+    ax2.set_xlabel('Time (s)')
+    ax2.set_ylabel('Humidity (%)')
+    ax3.set_title('Pressure')
+    ax3.set_xlabel('Time (s)')
+    ax3.set_ylabel('Pressure (hPa)')
+    plt.tight_layout()
+
+    # make the plot in real time
+    plt.ion()
+
+    # Start the main loop
     while True:
         # Get the current timestamp
-        timestamp = time.time()
+        timestamp = int(time.time())
 
         # Measure temperature, humidity, and pressure
         temperature, humidity, pressure = sensor.read()
 
-        # Print the data
+        # Print the data to the console
         print(f"Timestamp: {timestamp}")
         print(f"Temperature: {temperature}°C")
         print(f"Humidity: {humidity}%")
-        print(f"Pressure: {pressure} hPa")
+        print(f"Pressure: {pressure}hPa")
         print()
 
-        # Store the data
+        # Store the data in the lists
         temperatures.append(temperature)
         humidities.append(humidity)
         pressures.append(pressure)
         times.append(timestamp)
 
-        # Update the plot
-        for i, var1 in enumerate(['temperature', 'humidity', 'pressure']):
-            for j, var2 in enumerate(['temperature', 'humidity', 'pressure']):
-                if i >= j:
-                    continue
-                ax = plt.subplot(3, 3, 3 * i + j + 1)
-                ax.plot(times, temperatures, label='temperature', color='red')
-                ax.plot(times, humidities, label='humidity', color='blue')
-                ax.plot(times, pressures, label='pressure', color='green')
-                ax.legend()
+        # Plot the data
+        ax1.plot(times, temperatures, color='r')
+        ax2.plot(times, humidities, color='g')
+        ax3.plot(times, pressures, color='b')
 
-        plt.pause(0.01)
+        # Pause for a short interval
+        plt.pause(0.1)
