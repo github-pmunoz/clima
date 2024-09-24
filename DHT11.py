@@ -10,7 +10,7 @@ class DHT11(GPIODevice):
 
     def read(self):
         humidity, temperature = Adafruit_DHT.read_retry(Adafruit_DHT.DHT11, self.pin)
-        return humidity, temperature
+        return temperature, humidity
 
 
 if __name__ == '__main__':
