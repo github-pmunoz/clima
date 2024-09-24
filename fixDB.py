@@ -10,7 +10,7 @@ cursor.execute("ALTER TABLE measurements ADD COLUMN pressure REAL")
 cursor.execute("ALTER TABLE measurements ADD COLUMN sensor TEXT")
 
 # Update all existing rows with None values
-cursor.execute("UPDATE measurements SET column1 = NULL, column2 = DHT11")
+cursor.execute("UPDATE measurements SET pressure = NULL, sensor = DHT11")
 
 # Commit the changes and close the connection
 conn.commit()
