@@ -1,7 +1,8 @@
 import sqlite3
+import sys
 
 # Connect to the database
-conn = sqlite3.connect('/Users/pmunoz/repo/clima/weather_data.db')
+conn = sqlite3.connect(sys.argv[1])
 cursor = conn.cursor()
 
 # Add two columns to the existing table
