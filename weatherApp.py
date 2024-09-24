@@ -49,7 +49,7 @@ while True:
         for sensor_name, sensor in SENSORS.items():
             res = sensor.read()
             if len(res) == 2:
-                res = list(res) + [None]
+                res = tuple(list(res) + [None])
             print(f"{sensor_name}: {res}")
             store_measurement(timestamp, *res, sensor_name)
     except Exception as e:
