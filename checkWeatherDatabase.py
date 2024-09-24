@@ -47,7 +47,7 @@ def sigmaClipping(data, threshold=3):
 def queryDatabase(filename, start_time):
     conn = sqlite3.connect(filename)
     cursor = conn.cursor()
-    query = "SELECT * FROM measurements WHERE timestamp > ? AND temperature IS NOT NULL AND humidity IS NOT NULL"
+    query = "SELECT * FROM measurements WHERE timestamp > ? AND temperature IS NOT NULL AND humidity IS NOT NULL AND SENSOR = 'DHT11'"
     cursor.execute(query, (start_time,))
     rows = cursor.fetchall()
     cursor.close()
@@ -62,6 +62,11 @@ if len(sys.argv) > 2:
     days = int(sys.argv[2])
 else:
     days = 30
+
+if len(sys.argv) > 3:
+    sensor
+else:
+    sensor = 'DHT11'
 
 # Query the database for measurements in the last 'days' days
 # always start after 09-21-2024
