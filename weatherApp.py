@@ -53,6 +53,6 @@ while True:
             print(f"{sensor_name}: {res}")
             store_measurement(timestamp, *res, sensor_name)
     except Exception as e:
-        print(f"An error occurred: {e}")
+        raise e
     time.sleep(MEASUREMENT_INTERVAL)
 conn.close()
