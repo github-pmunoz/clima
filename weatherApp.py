@@ -3,6 +3,10 @@ import sqlite3
 from DHT11 import DHT11
 from BME280 import BME280
 
+#import camera handler
+from cv import cv2
+camera = cv2.VideoCapture(0)
+
 # Define the pin number for the DHT11 dht11
 DHT_PIN = 27
 dht11 = DHT11(DHT_PIN)
@@ -25,7 +29,12 @@ c = conn.cursor()
 
 # Create the table if it doesn't exist
 c.execute('''CREATE TABLE IF NOT EXISTS measurements
-             (timestamp INTEGER, temperature REAL, humidity REAL, pressure REAL, dht11 TEXT)''')
+             (timestamp INTEGER, temperature REAL, humidity REAL, pressure REAL, sensor TEXT)''')
+
+# Create the table if it doesn't exist
+c.execute('''CREATE TABLE IF NOT EXISTS images
+                (timestamp INTEGER, image BLOB)''')
+
 
 # Function to store the measurement in the database
 def store_measurement(timestamp, temperature, humidity, pressure, dht11):
@@ -42,6 +51,10 @@ def store_bme280_measurement(timestamp, temperature, humidity, pressure):
     c.execute("INSERT INTO measurements VALUES (?, ?, ?, ?, 'BME280')", (timestamp, temperature, humidity, pressure))
     conn.commit()
 
+def store_image(timestamp, image):
+    c.execute("INSERT INTO images VALUES (?, ?)", (timestamp, image))
+    conn.commit()
+
 # Main loop to continuously measure and store data
 while True:
     try:
@@ -52,6 +65,12 @@ while True:
                 res = tuple(list(res) + [None])
             print(f"{sensor_name}: {res}")
             store_measurement(timestamp, *res, sensor_name)
+        # Capture image
+        ret, frame = camera.read()
+        if ret:
+            store_image(timestamp, frame)
+            #show image
+            cv2.imshow('frame', frame)
     except Exception as e:
         raise e
     time.sleep(MEASUREMENT_INTERVAL)
