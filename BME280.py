@@ -85,4 +85,5 @@ def main():
         ax3.plot(times, pressures, color='b')
 
         # Pause for a short interval
+        plt.show()
         plt.pause(0.1)
