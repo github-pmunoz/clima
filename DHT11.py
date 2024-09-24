@@ -7,13 +7,13 @@ class DHT11(GPIODevice):
     def __del__(self):
         super().__del__()
 
-    def measure(self):
+    def read(self):
         humidity, temperature = Adafruit_DHT.read_retry(Adafruit_DHT.DHT11, self.pin)
         return humidity, temperature
 
 
 if __name__ == '__main__':
     dht11 = DHT11(4)
-    humidity, temperature = dht11.measure()
+    humidity, temperature = dht11.read()
     print(f"Humidity: {humidity}%")
     print(f"Temperature: {temperature}°C")
