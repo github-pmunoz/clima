@@ -1,4 +1,5 @@
 from Device import GPIODevice
+import Adafruit_DHT
 
 class DHT11(GPIODevice):
     def __init__(self, pin):
