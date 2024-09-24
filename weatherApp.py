@@ -3,10 +3,6 @@ import sqlite3
 from DHT11 import DHT11
 from BME280 import BME280
 
-#import camera handler
-from cv import cv2
-camera = cv2.VideoCapture(0)
-
 # Define the pin number for the DHT11 dht11
 DHT_PIN = 27
 dht11 = DHT11(DHT_PIN)
@@ -65,12 +61,7 @@ while True:
                 res = tuple(list(res) + [None])
             print(f"{sensor_name}: {res}")
             store_measurement(timestamp, *res, sensor_name)
-        # Capture image
-        ret, frame = camera.read()
-        if ret:
-            store_image(timestamp, frame)
-            #show image
-            cv2.imshow('frame', frame)
+
     except Exception as e:
         raise e
     time.sleep(MEASUREMENT_INTERVAL)
